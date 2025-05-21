@@ -1,0 +1,408 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;300;400;700&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+body{
+    background-color: rgb(255, 247, 237);
+    /*background-image: url('fondo2.png');*/
+    background: linear-gradient(rgb(255, 247, 237), rgb(255, 232, 216));
+    
+    background-size: cover;  /*cubre todo*/
+    background-position: center; 
+    background-repeat: no-repeat; 
+
+    height: 100vh; /* ocupa todo el tamaño de la pagina */
+    
+}
+li, a, button{
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+}
+.logo{
+    cursor: pointer; 
+}
+.Logo{
+    width: 70px;
+}
+
+.navlinks{
+    list-style: none;
+}
+.navlinks li{
+    display: inline-block;
+    padding: 0px 20px;
+}
+.navlinks li a{
+    background-color: rgb(87, 71, 60);;
+    color: rgb(255, 247, 237);
+    display: block;
+    margin: 0px 2px;
+    padding: 12px 22px;
+    border-radius: 20px;
+    transition:  all 0.3s ease 0s;
+}
+.navlinks li a:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(87, 71, 60);;
+}
+.btn-profile{
+    width: 300px;
+    padding: 12px 25px;
+    background-color: rgb(87, 71, 60);;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    color: rgb(255, 247, 237);
+
+}
+.btn-profile:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(87, 71, 60);;
+}
+.profile-container{
+    display: flex;
+    justify-content: center; /* centra horizontalmente los elementos */
+    align-items: center; /* centra verticalmente los elementos */
+    
+    width: 100vw; 
+    height: 80vh;
+    background-color: transparent; /*aqua*/
+
+}
+.profile-container-general p,
+.profile-container-general i{
+    color: rgb(87, 71, 60);;
+}
+
+.profile-container-general input::placeholder{
+    color: rgba(97, 77, 63, 0.589);;
+}
+.profile-container .profile-container-general{
+    justify-content: center; /* centra horizontalmente los elementos */
+    padding: 30px;
+    height: 100%;
+    width: 35%;
+    background-color: transparent; /*rojo general*/
+    border-radius: 30px;
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.profile-container-general .profile-img-user{
+    height: 25%;
+    width: 100%;
+    background-color: transparent; /*verde limon*/
+    display: flex;
+    align-items: center;
+    
+}
+.profile-img-user .profile-pfp{
+    height: 100%;
+    width: 28%;
+    background-color: transparent; /*amarillo*/
+    padding: 10px;
+
+}
+.profile-pfp .Pfp{
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+}
+.profile-img-user .profile-user-bio{
+    height: 100%;
+    width: 72%;
+    background-color: transparent; /*rojo*/
+
+    padding: 10px;
+
+}
+.profile-user-bio{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    gap: 10px;
+}
+.profile-user-bio input{
+    outline: none;
+    border: none;
+    height: 25%;
+    border-radius: 10px;
+    overflow-y: auto; /**/
+    padding-left: 10px;
+    padding-right: 10px;
+    color: rgb(97, 77, 63);
+}
+/*usuario*/
+.profile-user-bio .profile-p{
+    border: none;
+    outline: none;
+    font-size: 45px;
+    font-weight: bolder;
+    height: 40%;
+    background-color: transparent;
+    color: rgb(97, 77, 63);
+}
+.profile-user-bio input::placeholder{
+    color: rgba(97, 77, 63, 0.589);
+}
+/*separador*/
+.profile-container-general .separador,
+.profile-container-general .separador-dos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 7%;
+    width: 100%;
+    background-color: transparent; /*rosa*/
+    
+}
+.separador .h,
+.separador-dos .h2{
+    border: none;
+    background-color: rgb(87, 71, 60);;
+    height: 3px;
+    width: 100%;
+}
+
+/*nombres*/
+.profile-container-general .profile-icon-name,
+.profile-container-general .profile-icon-manage,
+.profile-container-general .profile-icon-birth{
+    display: flex;
+    align-items: center;
+    height: 5%;
+    width: 100%;
+    background-color: transparent; /*red*/
+    gap: 15px;
+
+    color: rgb(87, 71, 60);;
+    font-size: 20px;
+    font-weight: 500;
+
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+/*inputs de nombres*/
+.profile-container-general .profile-names,
+.profile-container-general .profile-manage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 7%;
+    width: 100%;
+    background-color: transparent; /*amarillo*/
+    gap: 10px;
+
+    margin-bottom: 20px;
+    
+}
+.profile-names input,
+.profile-manage input{
+    height: 80%;
+    width: 100%;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    border: none;
+    outline: none;
+
+    color: rgb(97, 77, 63);
+}
+/*  fecha de nacimiento y fecha de miembro  */
+.profile-container-general .profile-birth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 7%;
+    width: 100%;
+    background-color: transparent; /*amarillo*/
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+.profile-birth input{
+    height: 80%;
+    width: 100%;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    border: none;
+    outline: none;
+
+    color: rgba(97, 77, 63, 0.589);
+}
+.profile-icon-birth p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+.profile-container-general .profile-save-changes{
+    width: 100%;
+    height: 10%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-save-changes .btn-save-changes{
+    width: 70%;
+    height: 70%;
+
+    outline: none;
+    border: none;
+    background-color: rgb(87, 71, 60);;
+    color: rgb(255, 247, 237);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    
+}
+.btn-save-changes:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(87, 71, 60);;
+}
+/*POP UP fondo*/
+.PopUp{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+/* Contenido del Pop up para crear las tareas */
+.modal-content{
+    width: 400px;
+    height: 450px;
+    background-color: rgb(255, 247, 237);
+    border-radius: 30px;
+    position: relative;
+    padding: 15px;
+
+    /*display flex es para centrar todo al centro*/
+    
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.modal-content .close{
+    background-color: transparent; /* red */
+    color: rgb(228, 190, 165);
+    height: 10%;
+    width: 10%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+
+    font-size: 20px;
+}
+.close:hover{
+    color: rgb(255, 247, 237);
+    background-color: rgb(228, 190, 165);
+    transition: 0.3s ease;
+    font-size: 20px;
+    cursor: pointer;
+}
+.modal-content .task-info{
+    height: 100%;
+    width: 100%;
+    background-color: transparent; /*rosa*/
+
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.task-info textarea{
+    width: 100%;
+    height: 20%;
+
+    outline: none;
+    border: none;
+    color: rgb(228, 190, 165);
+    border-radius: 10px;
+    padding: 10px;
+}
+.task-info textarea::placeholder{
+    color: rgb(228, 190, 165);
+}
+.task-info p,
+.task-info h3{
+    color: rgb(228, 190, 165);
+}
+.task-info h4{
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(228, 190, 165);
+}
+.task-info .task-btn{
+    background-color: rgb(228, 190, 165);
+    color: rgb(255, 247, 237);
+    width: 100%;
+    height: 12%;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+}
+.task-btn:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(228, 190, 165);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+.task-info .separador-h4{
+    height: 5%;
+    width: 100%;
+    background-color: transparent; /*rojo*/
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.separador-h4 .h-h4{
+    border: none;
+    background-color: rgb(228, 190, 165);
+    height: 5px;
+    width: 100%;
+}
+.task-info .task-check{
+    width: 100%;
+    height: 25%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+.task-check h3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+}

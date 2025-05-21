@@ -1,0 +1,1156 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;300;400;700&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+body{
+    background-color: rgb(255, 247, 237);
+    /*background-image: url('fondo2.png'); /*fondo a usar para la página*/
+    background: linear-gradient(rgb(255, 247, 237), rgb(255, 232, 216));
+
+    background-size: cover;  /*cubre todo*/
+    background-position: center; 
+    background-repeat: no-repeat; 
+
+    height: 100vh; /* ocupa todo el tamaño de la pagina */
+}
+li, a, button{
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+}
+.logo{
+    cursor: pointer; 
+}
+.Logo{
+    width: 70px;
+}
+
+.navlinks{
+    list-style: none;
+}
+.navlinks li{
+    display: inline-block;
+    padding: 0px 20px;
+}
+.navlinks li a{
+    background-color: rgb(87, 71, 60);;
+    color: rgb(255, 247, 237);
+    display: block;
+    margin: 0px 2px;
+    padding: 12px 22px;
+    border-radius: 20px;
+    transition:  all 0.3s ease 0s;
+}
+.navlinks li a:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(87, 71, 60);;
+}
+.btn-profile{
+    width: 300px;
+    padding: 12px 25px;
+    background-color: rgb(87, 71, 60);;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    color: rgb(255, 247, 237);
+
+}
+.btn-profile:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(87, 71, 60);;
+}
+/*      VENTANAS DE CHAT        */
+.container-interface{
+    display: flex;
+    justify-content: center; /* centra horizontalmente los elementos */
+    align-items: center; /* centra verticalmente los elementos */
+    width: 100vw; 
+    height: 80vh;
+    background-color: transparent; /*aqua*/
+
+}
+.container-interface .sidebar,
+.container-interface .chat-container{
+    height: 100%;
+    border-radius: 30px;
+
+    box-shadow: 2px 9px 49px 5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.container-interface .additional-container {
+    height: 100%;
+    border-radius: 30px;
+}
+
+.container-interface .sidebar{
+    background-color: transparent; /*amarillo*/
+    width: 295px;
+    margin-left: 50px;
+    margin-right: 50px;
+
+}
+.container-interface .chat-container{
+    background-color: transparent; /*rojo*/
+    width: 850px;
+    margin-right: 50px;
+
+}
+.container-interface .additional-container{
+    background-color: transparent; /*azul*/
+    width: 350px;
+    margin-right: 50px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+    /*padding: 5px;*/
+}
+
+/*containers de auxilio :'0*/
+.sidebar .user-container,
+.sidebar .separador-container,
+.sidebar .elements-container,
+.chats-display .chats-active{
+    display: flex; /* Para centrar su contenido e */
+    justify-content: center; 
+    align-items: center;
+    background-color: transparent; /*amarillo*/
+}
+.sidebar .user-container {
+    height: 40%;
+    width: 100%;
+}
+.user-container .user-photo {
+    display: flex; /* Para centrar su contenido */
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    
+    background-color: transparent; /*naranja*/
+    border-radius: 30px;
+    
+    height: 100%;
+    width: 100%;
+}
+.user-photo .user-img{
+    height: 80%;
+    width: 80%;
+    border-radius: 100%;
+    margin: 8px;
+}
+.user-photo p{
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(97, 77, 63);;
+}
+/*separadores containers*/
+.sidebar .separador-container,
+.sidebar .elements-container{
+    height: 5%;
+    width: 100%;
+}
+.elements-container .elements-aux {
+    height: 100%;
+    width: 85%;
+    background-color: transparent;
+    color: rgb(97, 77, 63);;
+    display: flex;  /* Alinear elementos en fila */
+    align-items: center;
+    justify-content: space-between; /* Separa los extremos */
+    
+}
+.elements-aux .icons-group {
+    justify-content: center; 
+    align-items: center;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+}
+.icons-group i{
+    border-radius: 15px;
+    padding: 12px;
+}
+.icons-group i:hover{
+    background-color: rgb(228, 190, 165);
+    color: rgb(255, 247, 237);
+    transition:  all 0.3s ease 0s;
+    cursor: pointer; 
+}
+
+.elements-aux p {
+    text-align: right; /* Asegura que el texto esté alineado a la derecha */
+}
+
+.separador-container .h{
+    border: none;
+    background-color: rgb(97, 77, 63);;
+    height: 3px;
+    width: 85%;
+}
+/*container de todas las conversaciones*/
+.sidebar .chats-display{
+    background-color: transparent; /*rojo*/
+    overflow-y: auto; /*para que podamos hacer scroll con los chats*/
+    height: 50%;
+    width: 100%;
+    gap: 10px;
+}
+
+.chats-display .chats-active{
+    background-color: transparent; /*transparente*/
+    height: 20%;
+    width: 100%;
+    
+}
+.chats-active:hover{
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    transition:  all 0.3s ease 0s;
+    cursor: pointer; 
+}
+.chats-active .user-display-photo{
+    background-color: transparent; /*brown*/
+    display: flex;
+    justify-content: center; /* centra horizontalmente los elementos */
+    align-items: center;
+
+    height: 100%;
+    width: 25%;
+}
+.user-display-photo .Pic{
+    height: 76%;
+    width: 76%;
+    border-radius: 100%;
+}
+.chats-active .user-convo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+
+    background-color: transparent; /*aquamarine*/
+    
+    height: 100%;
+    width: 75%;
+    gap: 5px;
+    padding-left: 5px;
+}
+.user-convo .username{
+    font-weight: bold;
+    color: rgb(97, 77, 63);;
+}
+.user-convo .conversation{
+    font-size: small;
+    color: rgba(97, 77, 63, 0.589);
+}
+/*color del scrollbar del primer container*/
+.chats-display{
+    scrollbar-color: #e4d0c3 #ffffff; /* Color del thumb y track */
+    scrollbar-width: thin; /* Grosor del scrollbar */
+    
+}
+/*      ///////////////////////////     */
+.chat-container .chat-display-top,
+.chat-container .separador-aux,
+.chat-container .bar-chat,
+.bar-chat .write-bar{
+    display: flex; /* Para centrar su contenido e */
+    align-items: center;
+    justify-content: center;
+    
+    background-color: transparent; /*pink*/
+    color: rgb(97, 77, 63);;
+}
+.chat-container .chat-display-top {
+    height: 12%;
+    width: 100%;
+}
+.chat-display-top .display-top-aux,
+.chat-display-top .display-icons-group{
+    align-items: center;
+    display: flex;
+
+    height: 100%;
+}
+.chat-display-top .display-top-aux{
+    padding-left: 5%;
+    width: 80%;
+    background-color: transparent; /*verde*/
+
+    font-weight: bold;
+    font-size: 25px;
+}
+.chat-display-top .display-icons-group{
+    width: 20%;
+    background-color: transparent; /*verde*/
+    padding-right: 5%;
+    gap: 20px;
+}
+.display-icons-group i{
+    border-radius: 15px;
+    padding: 15px;
+}
+.display-icons-group i:hover{
+    color: rgb(255, 247, 237);
+    background-color: rgb(97, 77, 63);;
+    transition:  all 0.3s ease 0s;
+    cursor: pointer; 
+}   
+.chat-container .separador-aux{
+    height: 0.25%;
+    width: 100%;
+    background-color: transparent;
+}
+.separador-aux .h-display{
+    border: none;
+    background-color: rgb(97, 77, 63);;
+    height: 100%;
+    width: 90%;
+}
+/*BURBUJAS DE CHAT*/
+.chat-container .window-chat{
+    overflow-y: auto;
+    flex-direction: column;
+
+    background-color: transparent; /*verde*/
+    width: 100%;
+    height: 75%;
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+}
+.chat-container .bar-chat{
+    background-color: transparent; /*verde claro*/
+    width: 100%;
+    height: 13.25%;
+}
+.bar-chat .write-bar{
+    height: 60%;
+    width: 95%;
+    background-color: white; /*beige*/
+
+    padding-right: 10px;
+    border-radius: 12px;
+    gap: 5px;
+}
+.write-bar input{
+    height: 100%;
+    width: 92%;
+
+    border: none;
+    outline: none;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: transparent;   /*rosa*/
+    color: rgb(97, 77, 63);;
+}
+.write-bar input::placeholder{
+    color: rgba(97, 77, 63, 0.589);
+}
+.write-bar .btn-post,
+.write-bar .btn-post-media,
+.write-bar .btn-post-location{
+    height: 75%;
+    width: 6%;
+    border: none;
+    background-color: rgb(87, 71, 60);;
+    color: rgb(255, 247, 237);
+    border-radius: 10px;
+}
+.btn-post:hover,
+.btn-post-location:hover,
+.btn-post-media:hover{
+    transition:  all 0.3s ease 0s;
+    background-color: rgb(255, 247, 237);
+    color: rgb(87, 71, 60);;
+    cursor: pointer; 
+}
+.window-chat .window-bubble{
+    background-color: transparent; /*rojo*/
+    width: 100%;
+    height: 18%;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.window-bubble .BubblePic,
+.window-bubble-dos .BubblePicDos{
+    width: 10%;
+    height: 85%;
+    border-radius: 100%;
+}
+.window-bubble textarea,
+.window-bubble-dos textarea{
+    height: 85%;
+    width: 40%;
+    padding: 10px;
+    border-radius: 15px;
+
+    outline: none;
+    border: none;
+    color: rgb(87, 71, 60);;;
+}
+.window-bubble textarea::placeholder,
+.window-bubble-dos textarea::placeholder{
+   color: rgba(97, 77, 63, 0.589);
+}
+.window-chat .window-bubble-dos{
+    background-color: transparent; /*azul*/
+    width: 100%;
+    height: 18%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* alinea todo a la derecha */
+    gap: 10px;
+}
+/*barra de notificaciones*/
+.additional-container .additional-container-n,
+.additional-container .additional-container-p
+{
+    height: 50%;
+    width: 100%;
+    background-color: transparent; /*aqua*/
+    color: rgb(87, 71, 60);;
+    padding: 15px;
+    border-radius: 30px;
+
+    box-shadow: 2px 9px 49px 5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+.task-progress p{
+    color: white;
+}
+.additional-container-n .separador-h1,
+.additional-container-p .separador-h2{
+    height: 8%;
+    width: 100%;
+    background-color: transparent;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.separador-h1 .h-h1,
+.separador-h2 .h-h2{
+    height: 3px;
+    width: 100%;
+    background-color: rgb(87, 71, 60);;
+    border: none;
+}
+.additional-container-n .notificacion-container{
+    overflow-y: auto;
+    background-color: transparent; /*rosa*/
+    height: 100%;
+    width: 100%;
+}
+.notificacion-container .notificacion-bubble{
+    height: 20%;
+    width: 100%;
+
+    background-color: rgb(187, 226, 97);;
+    color: rgb(255, 255, 255);
+
+    margin-bottom: 5px;
+    border-radius: 10px;
+
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+/*hover*/
+.notificacion-bubble:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(87, 71, 60);;
+    transition:  all 0.3s ease 0s;
+    cursor: pointer;
+}
+/*progreso de las tareas*/
+.additional-container-p .task-container{
+    overflow-y: auto;
+    background-color: transparent; /*violeta*/
+    height: 100%;
+    width: 100%;
+}
+.task-container .task-progress{
+    height: 20%;
+    width: 100%;
+    background-color: #E9D4C3;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    cursor: pointer;
+}
+/*POP UP fondo*/
+.PopUp{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+/* Contenido del Pop up para crear las tareas */
+.modal-content{
+    width: 400px;
+    height: 450px;
+    background-color: rgb(255, 247, 237);
+    border-radius: 30px;
+    position: relative;
+    padding: 15px;
+
+    /*display flex es para centrar todo al centro*/
+    
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.modal-content .close{
+    background-color: transparent; /* red */
+    color: rgb(228, 190, 165);
+    height: 10%;
+    width: 10%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+
+    font-size: 20px;
+}
+.close:hover{
+    color: rgb(255, 247, 237);
+    background-color: rgb(228, 190, 165);
+    transition: 0.3s ease;
+    font-size: 20px;
+    cursor: pointer;
+}
+.modal-content .task-info{
+    height: 100%;
+    width: 100%;
+    background-color: transparent; /*rosa*/
+
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.task-info textarea{
+    width: 100%;
+    height: 20%;
+
+    outline: none;
+    border: none;
+    color: rgb(228, 190, 165);
+    border-radius: 10px;
+    padding: 10px;
+}
+.task-info textarea::placeholder{
+    color: rgb(228, 190, 165);
+}
+.task-info p,
+.task-info h3{
+    color: rgb(228, 190, 165);
+}
+.task-info h4{
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(228, 190, 165);
+}
+.task-info .task-btn{
+    background-color: rgb(228, 190, 165);
+    color: rgb(255, 247, 237);
+    width: 100%;
+    height: 12%;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+}
+.task-btn:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(228, 190, 165);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+.task-info .separador-h4{
+    height: 5%;
+    width: 100%;
+    background-color: transparent; /*rojo*/
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.separador-h4 .h-h4{
+    border: none;
+    background-color: rgb(228, 190, 165);
+    height: 5px;
+    width: 100%;
+}
+.task-info .task-check{
+    width: 100%;
+    height: 25%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+.task-check h3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+}
+
+/*POP UP reclama recompensa*/
+.PopUpReward{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+/* Contenido del Pop up para crear las tareas */
+.modal-reward{
+    width: 250px;
+    height: 250px;
+    background-color: rgb(255, 247, 237);
+    border-radius: 30px;
+    position: relative;
+    padding: 15px;
+
+    /*display flex es para centrar todo al centro*/
+    
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.modal-reward .close-reward{
+    background-color: transparent; /* red */
+    color: rgb(228, 190, 165);
+    height: 19%;
+    width: 16%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+
+    font-size: 20px;
+}
+.close-reward:hover{
+    color: rgb(255, 247, 237);
+    background-color: rgb(228, 190, 165);
+    transition: 0.3s ease;
+    font-size: 20px;
+    cursor: pointer;
+}
+.modal-reward .task-reward{
+    height: 100%;
+    width: 100%;
+    background-color: transparent; /*amarillo*/
+
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.task-reward .separador-reward{
+    height: 5%;
+    width: 100%;
+    background-color: transparent; /*rojo*/
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.separador-reward .h-reward{
+    border: none;
+    background-color: rgb(228, 190, 165);
+    height: 5px;
+    width: 100%;
+}
+.task-reward h3, 
+.task-reward p{
+    color: rgb(228, 190, 165);
+}
+.task-reward .task-reward-btn{
+    width: 100%;
+    height: 20%;
+    border:none;
+    outline: none;
+    background-color: rgb(228, 190, 165);
+    color:rgb(255, 247, 237);
+    border-radius: 15px;
+}
+.task-reward-btn:hover{
+    background-color: rgb(255, 247, 237);
+    color:rgb(228, 190, 165);
+}
+/*POP UP crear chat*/
+.PopUpChat{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+/* Contenido del Pop up para crear los chats */
+.modal-chat{
+    width: 320px;
+    height: 450px;
+    background-color: rgb(255, 247, 237);
+    border-radius: 30px;
+    position: relative;
+    padding: 15px;
+
+    /*display flex es para centrar todo al centro*/
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.modal-chat p{
+    color: rgb(228, 190, 165);
+}
+.modal-chat .close-newchat{
+    width: 100%;
+    min-height: 9%;
+    
+    border: none;
+    outline: none;
+    background-color: transparent; /*red*/
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.close-newchat button{
+    width: 12%;
+    height: 100%;
+
+    background-color: rgb(139, 98, 71);;
+    color: rgb(255, 247, 237);
+
+    border: none;
+    outline: none;
+
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.close-newchat button:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(139, 98, 71);;
+    transition: 0.3s ease;
+}
+.modal-chat .chat-to{
+    background-color: transparent; /*green*/
+    width: 100%;
+    min-height: 10%;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    overflow-x: hidden; /* Permitir desplazamiento horizontal */
+    flex-wrap: nowrap; /* Evita que los elementos pasen a una nueva línea */
+    white-space: nowrap; /* Evita que el contenido se divida */
+}
+.chat-to button{
+    min-width: 52%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: rgb(228, 190, 165);
+    color: rgb(255, 247, 237);
+
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.chat-to button:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(228, 190, 165);
+    transition: 0.3s ease;
+}
+.modal-chat .separador-chat{
+    min-height: 5%;
+    width: 100%;
+    background-color: transparent; /*rojo*/
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.separador-chat .h-chat{
+    border: none;
+    background-color: rgb(228, 190, 165);
+    height: 2px;
+    width: 100%;
+}
+.modal-chat .c-chat{
+    min-height: 68%;
+    width: 100%;
+    background-color: transparent; /*coral*/
+
+    overflow-y: auto;
+}
+.c-chat .new-convo{
+    width: 100%;
+    height: 17%;
+    background-color: transparent;
+
+    border-radius: 5px;
+
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.new-convo:hover{
+    background-color: white;
+    transition: 0.3s ease;
+}
+.new-convo img{
+    border-radius: 100%;
+    height: 100%;
+    min-width: 18%;
+}
+.start-btn{
+    border-radius: 10px;
+    height: 15%;
+
+    border: none;
+    outline: none;
+
+    background-color: rgb(139, 98, 71);;
+    color: rgb(255, 247, 237);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.start-btn:hover{
+    color: rgb(139, 98, 71);;
+    background-color: rgb(255, 247, 237);
+    transition: 0.3s ease;
+}
+/*POP UP para borrar chat*/
+.PopUpDelete{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+/* Contenido del Pop up para borrar los chats */
+.modal-delete{
+    width: 320px;
+    height: 450px;
+    background-color: rgb(255, 247, 237);
+    border-radius: 30px;
+    position: relative;
+    padding: 15px;
+
+    /*display flex es para centrar todo al centro*/
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.modal-delete p{
+    color: rgb(228, 190, 165);
+}
+.modal-delete .close-deletechat{
+    width: 100%;
+    height: 9%;
+    
+    border: none;
+    outline: none;
+    background-color: transparent; /*red*/
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.close-deletechat button{
+    width: 12%;
+    height: 100%;
+
+    background-color: rgb(139, 98, 71);;
+    color: rgb(255, 247, 237);
+
+    border: none;
+    outline: none;
+
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.close-deletechat button:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(139, 98, 71);;
+    transition: 0.3s ease;
+}
+.modal-delete .separador-delete{
+    height: 5%;
+    width: 100%;
+    background-color: transparent; /*rojo*/
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.separador-delete .h-delete{
+    border: none;
+    background-color: rgb(228, 190, 165);
+    height: 2px;
+    width: 100%;
+}
+.modal-delete .c-delete{
+    height: 76%;
+    width: 100%;
+    background-color: transparent; /*coral*/
+
+    overflow-y: auto;
+}
+.c-delete .new-delete{
+    width: 100%;
+    height: 15%;
+    background-color: transparent;
+
+    border-radius: 5px;
+
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.new-delete:hover{
+    background-color: white;
+    transition: 0.3s ease;
+}
+.new-delete img{
+    border-radius: 100%;
+    height: 100%;
+    min-width: 18%;
+}
+
+/*  //   LLAMADA   //      */
+.PopUpCall{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+.modal-call{
+    width: 1050px;
+    height: 750px;
+    background: linear-gradient(rgb(255, 255, 255), rgb(255, 232, 216));
+    border-radius: 15px;
+    position: relative;
+    padding: 10px;
+
+    /*display flex es para centrar todo al centro*/
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    gap: 5px;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.modal-call p{
+    color: rgb(228, 190, 165);
+}
+.modal-call .close-call-call{
+    width: 100%;
+    height: 5%;
+    
+    border: none;
+    outline: none;
+    border-radius: 30px 30px 0 30px;
+    
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.close-call-call button{
+    width:3%;
+    height: 100%;
+
+    background-color: rgb(236, 97, 97);
+    color: rgb(255, 247, 237);
+
+    border: none;
+    outline: none;
+
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.close-call-call button:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(236, 97, 97);
+    transition: 0.3s ease;
+}
+.modal-call .c-call {
+    height: 85%;
+    width: 100%;
+    background-color: transparent; /* azul */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; /* Incluir bordes y padding en el tamaño total */
+}
+
+.c-call .sep-call {
+    background-color: transparent; /* fucsia */
+    width: 97%;  
+    height: 97%; 
+
+    display: grid;
+    grid-template-columns: calc(50% - 2.5px) calc(50% - 2.5px);  /*restar el gap de 5px*/
+    grid-template-rows: calc(50% - 2.5px) calc(50% - 2.5px); 
+    
+    gap: 5px;
+    border-radius: 10px;
+    /*border: 2px solid rgb(139, 98, 71);*/
+    box-sizing: border-box; /**no desborde*/
+}
+
+.sep-call .new-call {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    border-radius: 10px;
+    border: 2px solid rgb(139, 98, 71);;
+
+    width: 100%;  /* Toma el 100% del espacio disponible de la celda */
+    height: 100%; /* Toma el 100% del espacio disponible de la celda */
+    box-sizing: border-box; /* Incluir borde y padding dentro del tamaño */
+}
+
+
+.new-call img{
+    border-radius: 100%;
+    height: 60%;
+    min-width: 18%;
+}
+.modal-call .call-buttons{
+    width: 100%;
+    height: 10%;
+    background-color: rgba(139, 98, 71, 0.233);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0 0 30px 30px;
+    gap: 10px;
+}
+.call-buttons button{
+    width: 7.5%;
+    height: 80%;
+
+    border: none;
+    outline: none;
+
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.call-buttons .mute-call,
+.call-buttons .add-call{
+    background-color: white;
+    color: rgb(87, 71, 60);;;
+    transition: 0.3s ease;
+}
+
+.call-buttons .end-call{
+    background-color: rgb(236, 97, 97);;
+    color: rgb(255, 247, 237);
+}
+.call-buttons .end-call:hover{
+    color: rgb(236, 97, 97);;
+    background-color: rgb(255, 247, 237);
+}
+.call-buttons .mute-call:hover,
+.call-buttons .add-call:hover{
+    color: white;
+    background-color: rgb(87, 71, 60);;;
+    transition: 0.3s ease;
+}

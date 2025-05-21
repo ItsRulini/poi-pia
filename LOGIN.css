@@ -1,0 +1,398 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;300;400;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+body{
+    background-color: rgb(255, 247, 237);
+    background-image: url('fondo.png'); /*fondo a usar para la página*/
+
+    background-size: cover;  /*cubre todo*/
+    background-position: center; 
+    background-repeat: no-repeat; 
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ocupa todo el tamaño de la pagina */
+}
+.login-container{ /*primer container, fondo*/
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: transparent;  /*rgb(255, 247, 237)*/ /*rojo*/
+    padding: 10px;
+    justify-content: center;
+    display: flex;
+
+    align-items: center;
+}
+.container{
+    max-width: 900px; /*ajusta el tamaño del contenedor del del username password, el titulo y boton*/
+    margin: 0 auto;
+    
+}
+.main h2{
+    line-height: 40px;
+
+    margin-top: 50px;
+    font-size: 37px;
+    font-weight: 700;
+    color: rgb(139, 98, 71);
+    text-align: center;
+}
+.main p{
+    font-size: 15px;
+    color: rgb(139, 98, 71);
+}
+.login-container .main { /* Contenedor del username, password, título y botón */
+    
+    background-color: transparent; /*amarillo*/
+     /* Asegura que ocupe el 100% del espacio disponible */
+    height: 450px;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Centra el contenido horizontalmente */
+    align-items: center;
+    box-sizing: border-box;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    
+}
+.main .content{ /*es el contenedor del contenedor "main"*/
+    display: block;
+    width: 100%; /* Ocupa el 100% del contenedor "main" */
+    height: 300px;
+    width: 330px;
+
+    padding: 10px;
+    margin: 0 auto; /* Centra el contenedor */
+    
+    background-color: transparent; /*naranja*/
+
+}
+.btn{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.btn,button,input{
+    border-radius: 35px;
+}
+.btn:hover, button:hover{
+    transition: 0.3s ease;
+}
+a{
+    text-decoration: none;
+}
+.login-container form{
+    margin: 30px 0;
+}
+.login-container input {
+    outline: none;
+    margin-bottom: 15px;
+    font-size: 13.5px;
+    color: rgb(139, 98, 71);
+    text-align: left;
+    padding: 14px 20px;
+    width: 100%; /* Ocupa el 100% del contenedor */
+    max-width: 400px; /* Limita el tamaño máximo de los inputs */
+    display: block; /* Asegura que el input sea un bloque */
+    margin-left: auto;
+    margin-right: auto; /* Centra horizontalmente el input */
+    box-sizing: border-box;
+    border: none;
+    background: white;
+    transition: 0.3s ease;
+}
+.login-container input::placeholder{
+    color:rgb(139, 98, 71);
+}
+.login-container input:focus{
+    background: transparent;
+    border: 1px solid rgb(228, 190, 165);
+}
+.login-container button{
+    font-size: 18px;
+    color: rgb(255, 247, 237);
+    width: 100%;
+    background: rgb(139, 98, 71);
+    border: none;
+    padding: 14px 15px;
+    font-weight: 600;
+    transition: 0.3s ease;
+
+}
+button:hover{
+    background-color: rgb(255, 247, 237);
+    color: rgb(139, 98, 71);
+}
+.content .SignUp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    color: rgb(139, 98, 71);
+    gap: 5px;
+}
+a{
+    color: rgb(139, 98, 71);
+}
+a:hover{
+    color: rgb(255, 247, 237);
+}
+/*POP UP*/
+.PopUp{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+/* Contenido del Pop up para crear publicaciones */
+.modal-content{
+    width: 400px;
+    height: 650px;
+    background-color: rgb(255, 247, 237);
+    border-radius: 30px;
+    position: relative;
+    padding: 12px;
+
+    /*display flex es para centrar todo al centro*/
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+}
+.modal-content .modal-display{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    background-color: rgb(255, 247, 237);; /* aqua */
+    height: 6%;
+    width: 100%;
+    border-radius: 10px;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+.modal-display .close{
+    background-color: transparent; /* red */
+    height: 100%;
+    width: 10%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+.modal-display p{
+    font-size: 20px;
+    color: rgb(228, 190, 165);
+}
+.modal-display i{
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 30px;
+}
+.modal-display i:hover{
+    color: rgb(255, 247, 237);
+    background-color: rgb(228, 190, 165);
+    transition: 0.3s ease;
+}
+.modal-content .separador{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5%;
+    width: 100%;
+    background-color: transparent; /*rosa*/
+}
+.separador .h{
+    border: none;
+    background-color: rgb(228, 190, 165);
+    height: 3px;
+    width: 100%;
+}
+.modal-content .modal-pfp{
+    background-color: transparent; /* verde raro */
+    height: 35%;
+    width: 100%;
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-pfp .ImageLoad{
+    background-color: transparent; /* amarillo */
+    height: 100%;
+    width: 60%;
+    
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.ImageLoad .ImageLoaded{ /*foto*/
+    height: 80%;
+    width: 80%;
+    border-radius: 100%;
+    margin-bottom: 10px;
+}
+/*aceptar archivos*/
+.ImageLoad input{
+    display: none;
+}
+.ImageLoad label{
+    background-color: rgb(139, 98, 71); /* verde fosfo */
+    color: rgb(255, 247, 237);
+    height: 12%;
+    width: 70%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 35px;
+    
+}
+.ImageLoad label:hover{
+    background-color: rgb(255, 247, 237);/* verde fosfo */
+    color: rgb(139, 98, 71);
+    transition: 0.3s ease;
+}
+.modal-content .modal-general{
+    background-color: transparent; /* pink */
+    height: 49%;
+    width: 100%;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+/*          ///////////////////////         */
+.modal-content .modal-icon-name,
+.modal-content .modal-icon-birthdate,
+.modal-content .modal-user-password{
+    width: 100%;
+    height: 8%;
+    background-color: transparent; /* blue */
+    gap: 10px;
+    margin-bottom: 10px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-icon-name .modal-firtst-name,
+.modal-icon-birthdate .modal-third-name,
+.modal-user-password .modal-user{
+    background-color: white; /* verde */
+    height: 100%;
+    width: 100%;
+    border-radius: 35px;
+    padding-left: 13px;
+    
+    display: flex;
+    align-items: center;
+}
+.modal-icon-name .modal-second-name,
+.modal-icon-birthdate .modal-birthdate,
+.modal-user-password .modal-password{
+    background-color: white; /* amarillo */
+    height: 100%;
+    width: 100%;
+    border-radius: 35px;
+    padding-left: 13px;
+    
+    display: flex;
+    align-items: center;
+}
+.modal-firtst-name input,
+.modal-third-name input,
+.modal-second-name input,
+.modal-birthdate input,
+.modal-password input,
+.modal-user input,
+.modal-email input{
+    height: 85%;
+    width: 100%; /* Asegura que el input no sobresalga */
+    padding-left: 10px; /* Ajusta según necesites */
+    padding-right: 10px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: rgb(228, 190, 165);
+}
+.modal-firtst-name input::placeholder,
+.modal-third-name input::placeholder,
+.modal-second-name input::placeholder,
+.modal-birthdate input::placeholder,
+.modal-password input::placeholder,
+.modal-user input::placeholder,
+.modal-email input::placeholder{
+    color: rgb(228, 190, 165);
+}
+.modal-content .modal-email{
+    width: 100%;
+    height: 8%;
+    background-color: white; /*blue*/
+    border-radius: 35px;
+    padding-left: 13px;
+    
+    margin-bottom: 10px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-sign a{
+    color: rgb(255, 247, 237);
+}
+.btn-sign a:hover{
+    color: rgb(139, 98, 71);
+}
+.modal-content .btn-sign{
+    border-radius: 35px;
+    height: 7%;
+    width: 100%;
+    background-color: rgb(139, 98, 71);
+
+    margin-top: 25px;
+    
+    color: rgb(255, 247, 237);
+    outline: none;
+    border: none;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-sign:hover{
+    background-color: rgb(255, 247, 237);
+    transition: 0.3s ease;
+}
+.modal-content i{
+    color: rgb(228, 190, 165);
+}
