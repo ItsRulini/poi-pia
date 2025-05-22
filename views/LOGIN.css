@@ -9,7 +9,7 @@
 
 body{
     background-color: rgb(255, 247, 237);
-    background-image: url('fondo.png'); /*fondo a usar para la página*/
+    background-image: url('../multimedia/fondo.png'); /*fondo a usar para la página*/
 
     background-size: cover;  /*cubre todo*/
     background-position: center; 
