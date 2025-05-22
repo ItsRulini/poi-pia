@@ -7,3 +7,5 @@ document.getElementById('Crear').addEventListener('click',
     function(){
         document.querySelector('.PopUp').style.display = 'none';
     });
+
+

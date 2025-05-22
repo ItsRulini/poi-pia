@@ -31,7 +31,7 @@ class UsuarioDAO
         }
 
         // Valores por defecto si son null en el objeto y la BD los maneja (excepto CURRENT_TIMESTAMP)
-        $descripcion = $usuario->descripcion ?? null;
+        $descripcion = "I am a new user"; // Valor por defecto
         $estatusConexion = $usuario->estatusConexion ?? false;
 
         // Cambiar el tipo para estatusConexion de 's' a 'i'

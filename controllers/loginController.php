@@ -31,9 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($usuarioAutenticado instanceof Usuario) {
         // Guardar información del usuario en la sesión
         // No guardes la contraseña, incluso si estuviera en el objeto (que no lo está)
-        $_SESSION['idUsuario'] = $usuarioAutenticado->idUsuario;
-        $_SESSION['usuario'] = $usuarioAutenticado->usuario;
-        $_SESSION['nombres'] = $usuarioAutenticado->nombres;
+        $_SESSION['usuario'] = $usuarioAutenticado; // Guardar el objeto Usuario completo
         // Puedes guardar más datos si los necesitas globalmente
 
         $response['status'] = 'success';
