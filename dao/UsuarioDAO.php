@@ -124,6 +124,91 @@ class UsuarioDAO
         return null; // Usuario no encontrado o contraseña incorrecta
     }
 
+    public function actualizarUsuario(Usuario $usuario, $nuevaContraseña = null)
+    {
+        $campos = [];
+        $tipos = "";
+        $valores = [];
+
+        // Campos que siempre se actualizan si se proporcionan (o se mantienen desde el objeto)
+        if ($usuario->nombres !== null) { $campos[] = "nombres = ?"; $tipos .= "s"; $valores[] = $usuario->nombres; }
+        if ($usuario->paterno !== null) { $campos[] = "paterno = ?"; $tipos .= "s"; $valores[] = $usuario->paterno; }
+        // Materno puede ser null
+        $campos[] = "materno = ?"; $tipos .= "s"; $valores[] = $usuario->materno; // Siempre se envía, puede ser null
+        
+        if ($usuario->correo !== null) { $campos[] = "correo = ?"; $tipos .= "s"; $valores[] = $usuario->correo; }
+        if ($usuario->fechaNacimiento !== null) { $campos[] = "fechaNacimiento = ?"; $tipos .= "s"; $valores[] = $usuario->fechaNacimiento; }
+        if ($usuario->avatar !== null) { $campos[] = "avatar = ?"; $tipos .= "s"; $valores[] = $usuario->avatar; }
+        // Descripción se actualiza por otro mecanismo (recompensas)
+        // if ($usuario->descripcion !== null) { $campos[] = "descripcion = ?"; $tipos .= "s"; $valores[] = $usuario->descripcion; }
+
+
+        // Actualizar contraseña solo si se proporciona una nueva
+        if (!empty($nuevaContraseña)) {
+            $contraseñaHasheada = password_hash($nuevaContraseña, PASSWORD_DEFAULT);
+            if ($contraseñaHasheada === false) {
+                error_log("Error al hashear la nueva contraseña para el usuario ID: " . $usuario->idUsuario);
+                return false;
+            }
+            $campos[] = "contraseña = ?";
+            $tipos .= "s";
+            $valores[] = $contraseñaHasheada;
+        }
+
+        if (empty($campos)) {
+            return true; // No hay nada que actualizar (o solo se actualizó la contraseña y ya se hizo)
+        }
+
+        $sql = "UPDATE Usuario SET " . implode(", ", $campos) . " WHERE idUsuario = ?";
+        $tipos .= "i"; // Para idUsuario
+        $valores[] = $usuario->idUsuario;
+
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error al preparar la sentencia de actualización: " . $this->conn->error . " SQL: " . $sql);
+            return false;
+        }
+
+        // Necesario usar call_user_func_array para bind_param dinámico
+        $stmt->bind_param($tipos, ...$valores);
+
+        if ($stmt->execute()) {
+            return $stmt->affected_rows >= 0; // Exitoso si no hay error, incluso si no se afectan filas (datos iguales)
+        } else {
+            error_log("Error al ejecutar la actualización: " . $stmt->error);
+            return false;
+        }
+    }
+
+    public function buscarPorCorreoExcluyendoUsuario($correo, $idUsuarioExcluir)
+    {
+        $sql = "SELECT idUsuario FROM Usuario WHERE correo = ? AND idUsuario != ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            return null;
+        }
+        $stmt->bind_param("si", $correo, $idUsuarioExcluir);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_assoc();
+    }
+
+    // Método para actualizar solo la descripción (usado por recompensas)
+    public function actualizarDescripcionUsuario($idUsuario, $nuevaDescripcion) {
+        $sql = "UPDATE Usuario SET descripcion = ? WHERE idUsuario = ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error al preparar la sentencia para actualizar descripción: " . $this->conn->error);
+            return false;
+        }
+        $stmt->bind_param("si", $nuevaDescripcion, $idUsuario);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            error_log("Error al ejecutar la actualización de descripción: " . $stmt->error);
+            return false;
+        }
+    }
 }
 
 ?>

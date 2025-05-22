@@ -15,7 +15,7 @@ body{
     background-position: center; 
     background-repeat: no-repeat; 
 
-    height: 100vh; /* ocupa todo el tamaño de la pagina */
+    /*height: 100vh; /* ocupa todo el tamaño de la pagina */
     
 }
 li, a, button{
@@ -80,7 +80,6 @@ header{
     align-items: center; /* centra verticalmente los elementos */
     
     width: 100vw; 
-    height: 80vh;
     background-color: transparent; /*aqua*/
 
 }
@@ -267,7 +266,7 @@ header{
 .profile-save-changes .btn-save-changes{
     width: 70%;
     height: 70%;
-
+    margin-bottom: 3vh;
     outline: none;
     border: none;
     background-color: rgb(87, 71, 60);;
@@ -405,4 +404,103 @@ header{
     justify-content: center;
     align-items: center;
     font-weight: 400;
+}
+
+/* ... (tus estilos existentes) ... */
+
+/* Estilos para la sección "My Rewards" */
+.profile-my-rewards {
+    width: 100%;
+    margin-top: 20px; /* Espacio después del separador-dos */
+    padding: 0 10px; /* Un poco de padding lateral */
+    color: rgb(87, 71, 60);
+}
+
+.profile-icon-rewards { /* Similar a profile-icon-name */
+    display: flex;
+    align-items: center;
+    height: 5%; /* Ajustar si es necesario */
+    width: 100%;
+    background-color: transparent;
+    gap: 15px;
+    color: rgb(87, 71, 60);
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 15px; /* Espacio antes de la lista */
+    /* padding-left: 10px; */ /* Ya tiene padding el contenedor padre */
+}
+
+.profile-icon-rewards i {
+    font-size: 22px; /* Tamaño del icono de trofeo */
+}
+
+.rewards-list-container {
+    list-style: none;
+    padding: 0;
+    max-height: 200px; /* Altura máxima con scroll si hay muchas recompensas */
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo semi-transparente para la lista */
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.rewards-list-container li {
+    background-color: rgba(228, 190, 165, 0.3); /* Color de fondo para cada item, sutil */
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(87, 71, 60);
+    font-size: 15px;
+}
+
+.rewards-list-container li:last-child {
+    margin-bottom: 0;
+}
+
+.btn-set-description {
+    background-color: rgb(87, 71, 60); /* Color principal */
+    color: rgb(255, 247, 237); /* Texto claro */
+    border: none;
+    padding: 6px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease 0s;
+}
+
+.btn-set-description:hover {
+    background-color: rgb(228, 190, 165); /* Color hover */
+    color: rgb(87, 71, 60);
+}
+
+#noRewardsMessage { /* Estilo para el mensaje de no recompensas */
+    color: rgba(97, 77, 63, 0.7); /* */
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+/* Scrollbar para la lista de recompensas (opcional, para consistencia) */
+.rewards-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.rewards-list-container::-webkit-scrollbar-track {
+    background: rgba(87, 71, 60, 0.1);
+    border-radius: 10px;
+}
+
+.rewards-list-container::-webkit-scrollbar-thumb {
+    background-color: rgb(139, 98, 71); /* Color del scrollbar */
+    border-radius: 10px;
+    border: 2px solid rgba(255, 247, 237, 0.5); /* Borde sutil alrededor del thumb */
+}
+
+.rewards-list-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(87, 71, 60);
 }
