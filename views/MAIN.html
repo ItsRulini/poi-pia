@@ -82,10 +82,12 @@
 
             <div class="bar-chat">
                 <form id="formEnviarMensaje" class="write-bar">
-                    <input type="text" id="inputMensajeTexto" name="textoMensaje" placeholder="What's on your mind?"> 
-                    <button type="button" id="btnAdjuntarMedia" class="btn-post-media"><i class="fa-solid fa-paperclip"></i></button> 
-                    <button type="button" id="btnEnviarUbicacion" class="btn-post-location"><i class="fa-solid fa-location-dot"></i></button> 
-                    <button type="submit" class="btn-post"><i class="fa-solid fa-paper-plane"></i></button> 
+                    <input type="text" id="inputMensajeTexto" name="textoMensaje" placeholder="What's on your mind?">
+                    <input type="file" id="inputMediaFile" name="mediaFile" style="display: none;" accept="image/*,video/*,audio/*">
+                    
+                    <button type="button" id="btnAdjuntarMedia" class="btn-post-media"><i class="fa-solid fa-paperclip"></i></button>
+                    <button type="button" id="btnEnviarUbicacion" class="btn-post-location"><i class="fa-solid fa-location-dot"></i></button>
+                    <button type="submit" class="btn-post"><i class="fa-solid fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
@@ -212,6 +214,45 @@
         </div>
     </div>
     <script src="../js/bootstrap.bundle.js"></script>
+    <!-- <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"; // Actualizado a una versión más reciente
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Import the Cloud Storage functions
+      import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"; // Funciones necesarias para Storage
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyA70lJYRBHkDfBbO17PLcMDvlAUFdxypnE", // Mantén tus credenciales aquí
+        authDomain: "pia-poi-9e75e.firebaseapp.com",
+        projectId: "pia-poi-9e75e",
+        storageBucket: "pia-poi-9e75e.appspot.com", // Asegúrate que esta sea la correcta (generalmente sin firebasestorage)
+        messagingSenderId: "433263682962",
+        appId: "1:433263682962:web:d10c38881804d8475e8d4b",
+        measurementId: "G-277R0XDMRD" // Opcional
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      // const analytics = getAnalytics(app); // Descomenta si usas Analytics
+
+      // Initialize Cloud Storage and get a reference to the service
+      const storageFB = getStorage(app); // 'storageFB' para evitar colisión con variable 'storage' global del navegador
+
+      // Hacer que storageFB y las funciones de storage estén disponibles para MAIN.js
+      // Puedes adjuntarlas a window si MAIN.js no es un módulo, o pasarla a funciones.
+      // Si MAIN.js también fuera un módulo, podrías exportar storageFB.
+      // Por ahora, para mantener MAIN.js sin ser módulo:
+      window.firebaseStorage = {
+          storageInstance: storageFB,
+          ref: ref,
+          uploadBytesResumable: uploadBytesResumable,
+          getDownloadURL: getDownloadURL
+      };
+
+    </script> -->
     <script src="MAIN.js"></script>
     
 </body>
