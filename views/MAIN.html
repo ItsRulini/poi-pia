@@ -72,8 +72,8 @@
                     <p id="chatActivoNombre">Conversation name</p>
                 </div>
                 <div class="display-icons-group">
-                    <i class="fa-solid fa-phone call-trigger"></i>
-                    <i class="fa-solid fa-video call-trigger"></i>
+                    <!-- <i id="callButton" class="fa-solid fa-phone call-trigger"></i> -->
+                    <i id="videoCallButtonInHeader" class="fa-solid fa-video call-trigger"></i>
                 </div>
             </div>
             <div class="separador-aux"> <hr class="h-display"> </div>
@@ -155,6 +155,21 @@
             </div>
         </div>
     </div>
+    <div id="videoCallContainer" style="display: none; flex-direction: column; align-items: center; padding: 10px; background-color: #f0f0f0; border-radius: 8px; margin: 10px 0; border: 1px solid #ccc;">
+        <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 10px;">
+            <div style="text-align: center; position: relative;">
+                <p style="font-size: 0.9em; color: #555;">Tu Video</p>
+                <video id="localVideo" autoplay muted playsinline style="width: 200px; height: 150px; border: 1px solid #ddd; background-color: #000; border-radius: 4px;"></video>
+            </div>
+            <div style="text-align: center; position: relative;">
+                <p style="font-size: 0.9em; color: #555;">Video Remoto</p>
+                <video id="remoteVideo" autoplay playsinline style="width: 200px; height: 150px; border: 1px solid #ddd; background-color: #000; border-radius: 4px;"></video>
+            </div>
+        </div>
+        <div class="CallControls">
+            <button id="hangupButton" class="Button" title="Colgar llamada" disabled style="font-size: 1.2em; padding: 8px 10px; background-color: #e74c3c; color: white;"><i class="fa-solid fa-phone-slash"></i></button>
+        </div>
+    </div>
     <!-- Ventana PopUp para crear chat -->
     <div class="PopUpChat"> 
         <div class="modal-chat"> 
@@ -201,60 +216,27 @@
             </div>
             <div class="c-call">
                 <div class="sep-call">
-                    <div class="new-call">
-                        <img class="new-call-img" alt="ChiChat" src="../multimedia/logo.jpg" >
+                    <div class="new-call" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2c2c2c; position: relative; width:100%; height:100%;">
+                        <div id="local-video-container" style="width: 150px; height: 120px; position: absolute; top: 10px; right: 10px; border: 1px solid #444; background-color: #000; z-index: 10;">
+                            </div>
+                        <div id="remote-video-container" style="width: 100%; height: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; overflow-y: auto;">
+                            </div>
+                        <img class="new-call-img" alt="ChiChat" src="../multimedia/logo.jpg" style="display: none; /* Ocultar inicialmente o cuando el video esté activo */">
                     </div>
                 </div>
             </div>
             <div class="call-buttons">
                 <button class="mute-call" onclick="toggleMic(this)"><i class="fa-solid fa-microphone"></i></button>
-                <button class="end-call"><i class="fa-solid fa-phone"></i></button>
+                <button id="hangupButton" class="end-call"><i class="fa-solid fa-phone"></i></button>
                 <button class="add-call" onclick="toggleVideo(this)"><i class="fa-solid fa-video-slash"></i></button>
             </div>
         </div>
     </div>
+
+    <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
-    <!-- <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"; // Actualizado a una versión más reciente
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-    
-      // Import the Cloud Storage functions
-      import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"; // Funciones necesarias para Storage
-    
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyA70lJYRBHkDfBbO17PLcMDvlAUFdxypnE", // Mantén tus credenciales aquí
-        authDomain: "pia-poi-9e75e.firebaseapp.com",
-        projectId: "pia-poi-9e75e",
-        storageBucket: "pia-poi-9e75e.appspot.com", // Asegúrate que esta sea la correcta (generalmente sin firebasestorage)
-        messagingSenderId: "433263682962",
-        appId: "1:433263682962:web:d10c38881804d8475e8d4b",
-        measurementId: "G-277R0XDMRD" // Opcional
-      };
-    
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      // const analytics = getAnalytics(app); // Descomenta si usas Analytics
-
-      // Initialize Cloud Storage and get a reference to the service
-      const storageFB = getStorage(app); // 'storageFB' para evitar colisión con variable 'storage' global del navegador
-
-      // Hacer que storageFB y las funciones de storage estén disponibles para MAIN.js
-      // Puedes adjuntarlas a window si MAIN.js no es un módulo, o pasarla a funciones.
-      // Si MAIN.js también fuera un módulo, podrías exportar storageFB.
-      // Por ahora, para mantener MAIN.js sin ser módulo:
-      window.firebaseStorage = {
-          storageInstance: storageFB,
-          ref: ref,
-          uploadBytesResumable: uploadBytesResumable,
-          getDownloadURL: getDownloadURL
-      };
-
-    </script> -->
     <script src="MAIN.js"></script>
-    <script src="webrtc-handler.js"></script>
+    <!-- <script src="webrtc-handler.js"></script> -->
     
 </body>
 </html>
