@@ -12,6 +12,7 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario'] instanceof Usuario) {
     $usuario = $_SESSION['usuario'];
     $response = [
         'status' => 'success',
+        'idUsuario' => $usuario->idUsuario, // <-- AÑADIR ESTO
         'usuario' => $usuario->usuario,
         'avatar' => $usuario->avatar
     ];

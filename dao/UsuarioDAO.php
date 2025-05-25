@@ -209,6 +209,36 @@ class UsuarioDAO
             return false;
         }
     }
+
+    public function obtenerTodosLosUsuariosMenosActual($idUsuarioActual)
+    {
+        $usuarios = [];
+        $sql = "SELECT idUsuario, usuario, nombres, paterno, materno, avatar 
+                FROM Usuario 
+                WHERE idUsuario != ? 
+                ORDER BY usuario ASC";
+        
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error al preparar la sentencia para obtener usuarios: " . $this->conn->error);
+            return null;
+        }
+        
+        $stmt->bind_param("i", $idUsuarioActual);
+        
+        if (!$stmt->execute()) {
+            error_log("Error al ejecutar la sentencia para obtener usuarios: " . $stmt->error);
+            return null;
+        }
+        
+        $resultado = $stmt->get_result();
+        while ($fila = $resultado->fetch_assoc()) {
+            // No necesitamos crear objetos Usuario completos aquí, solo los datos para mostrar
+            $usuarios[] = $fila;
+        }
+        $stmt->close();
+        return $usuarios;
+    }
 }
 
 ?>

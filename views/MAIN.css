@@ -418,7 +418,6 @@ header{
 
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* alinea todo a la derecha */
     gap: 10px;
 }
 /*barra de notificaciones*/
@@ -1153,4 +1152,107 @@ header{
     color: white;
     background-color: rgb(87, 71, 60);;;
     transition: 0.3s ease;
+}
+
+/* En MAIN.css */
+.new-convo.selected-for-chat {
+    background-color: #e4d0c3 !important; /* Un color que indique selección, ajusta según tu paleta */
+    border: 1px solid #8b6247;
+}
+
+/* MAIN.css - Añadir al final */
+
+.window-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre burbujas */
+}
+
+.window-bubble, .window-bubble-dos {
+    display: flex;
+    align-items: flex-end; /* Alinea la imagen con la parte inferior del contenido del mensaje */
+    gap: 10px;
+    max-width: 70%; /* Las burbujas no ocupan todo el ancho */
+}
+
+.window-bubble { /* Mensajes recibidos */
+    align-self: flex-start;
+}
+
+.window-bubble-dos { /* Mensajes enviados */
+    align-self: flex-end;
+    flex-direction: row-reverse; /* Imagen a la derecha */
+}
+
+.BubblePic, .BubblePicDos {
+    width: 40px; /* Tamaño fijo para avatares en chat */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover; /* Asegura que la imagen cubra sin deformarse */
+    flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 80px; /* Ancho mínimo para que se vea bien el timestamp */
+}
+
+.window-bubble .message-content {
+    align-items: flex-start;
+}
+
+.window-bubble-dos .message-content {
+    align-items: flex-end;
+}
+
+.message-text-container {
+    padding: 8px 12px;
+    border-radius: 15px;
+    word-wrap: break-word; /* Para que el texto largo se divida */
+    max-width: 100%; /* Para que no exceda el contenedor de burbuja */
+}
+
+.window-bubble .message-text-container { /* Recibidos */
+    background-color: #e9d4c3; /* Color de fondo para mensajes recibidos */
+    border-top-left-radius: 0; /* Estilo de burbuja */
+}
+
+.window-bubble-dos .message-text-container { /* Enviados */
+    background-color: #d1e7dd; /* Un color diferente para mensajes enviados (ej. verde claro) */
+    border-top-right-radius: 0; /* Estilo de burbuja */
+}
+
+.message-text {
+    margin: 0;
+    color: rgb(87, 71, 60);
+    white-space: pre-wrap; /* Conserva espacios y saltos de línea */
+}
+
+.message-sender {
+    font-size: 0.75em;
+    color: #6c757d; /* Color más tenue para el remitente */
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+.window-bubble .message-sender {
+    margin-left: 10px; /* Pequeño margen para el nombre del remitente */
+}
+.window-bubble-dos .message-sender {
+    margin-right: 10px;
+}
+
+
+.message-timestamp {
+    font-size: 0.7em;
+    color: #888; /* Color aún más tenue para el timestamp */
+    margin-top: 3px;
+}
+.window-bubble .message-timestamp {
+    align-self: flex-start;
+    margin-left: 10px;
+}
+.window-bubble-dos .message-timestamp {
+    align-self: flex-end;
+    margin-right: 10px;
 }

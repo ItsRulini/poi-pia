@@ -69,35 +69,24 @@
             <!-- barra de arriba del chat -->
             <div class="chat-display-top">
                 <div class="display-top-aux">
-                    <p>Conversation name</p>
+                    <p id="chatActivoNombre">Conversation name</p>
                 </div>
                 <div class="display-icons-group">
                     <i class="fa-solid fa-phone call-trigger"></i>
                     <i class="fa-solid fa-video call-trigger"></i>
                 </div>
-                
             </div>
-            <div class="separador-aux">
-                <hr class="h-display">
-            </div>
-            <div class="window-chat">
-                <div class="window-bubble">
-                    <img class="BubblePic" alt="ChiChat" src="../multimedia/logo.jpg" >
-                    <textarea type="text" placeholder="Este es mi primer mensaje"></textarea>
-                </div>
-                <div class="window-bubble-dos">
-                    <textarea type="text" placeholder="Este es mi primer mensaje"></textarea>
-                    <img class="BubblePicDos" alt="ChiChat" src="../multimedia/logo.jpg" >
-                </div>
-            </div>
-            <!-- barra para escribir -->
+            <div class="separador-aux"> <hr class="h-display"> </div>
+
+            <div class="window-chat" id="windowChatMessages"> </div>
+
             <div class="bar-chat">
-                <div class="write-bar">
-                    <input type="text" name="" placeholder="What's on your mind?">
-                    <button type="submit" class="btn-post-media"><i class="fa-solid fa-paperclip"></i></button>
-                    <button type="submit" class="btn-post-location"><i class="fa-solid fa-location-dot"></i></button>
-                    <button type="submit" class="btn-post"><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
+                <form id="formEnviarMensaje" class="write-bar">
+                    <input type="text" id="inputMensajeTexto" name="textoMensaje" placeholder="What's on your mind?"> 
+                    <button type="button" id="btnAdjuntarMedia" class="btn-post-media"><i class="fa-solid fa-paperclip"></i></button> 
+                    <button type="button" id="btnEnviarUbicacion" class="btn-post-location"><i class="fa-solid fa-location-dot"></i></button> 
+                    <button type="submit" class="btn-post"><i class="fa-solid fa-paper-plane"></i></button> 
+                </form>
             </div>
         </div>
         <!-- 3. -->
@@ -165,25 +154,23 @@
         </div>
     </div>
     <!-- Ventana PopUp para crear chat -->
-    <div class="PopUpChat"> <!-- fondo -->
-        <div class="modal-chat"> <!-- Ventana base -->
+    <div class="PopUpChat"> 
+        <div class="modal-chat"> 
             <div class="close-newchat">
                 <button class="close-chat"><i class="fa-solid fa-arrow-left"></i></button>
                 <p>New message</p>
             </div>
-            <div class="chat-to">
-                <p>To:</p>
-            </div>
+            <div class="chat-to"> <p>To:</p>
+                </div>
             <div class="separador-chat">
                 <hr class="h-chat">
             </div>
-            <div class="c-chat">
-                <div class="new-convo">
-                    <img class="new-pfp" alt="ChiChat" src="../multimedia/logo.jpg" >
-                    <p>Username</p>
-                </div>
+            <div class="group-chat-name-container" style="display: none; margin-bottom: 10px;">
+                <input type="text" id="groupChatNameInput" placeholder="Group chat name..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
             </div>
-            <button class="start-btn">Start chatting</button>
+            <div class="c-chat" id="userListForNewChat"> <p class="loading-users-message" style="text-align:center; color: #8b6247;">Loading users...</p>
+            </div>
+            <button class="start-btn" id="startChatButton">Start chatting</button>
         </div>
     </div>
     <!-- Ventana PopUp para eliminar chat -->
