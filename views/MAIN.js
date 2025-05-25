@@ -1,4 +1,4 @@
-// MAIN.js (Cloudinary version)
+// MAIN.js Completo con implementación de videollamadas
 
 // Variables globales
 let idUsuarioActualGlobal = null;
@@ -7,6 +7,8 @@ let nombreUsuarioActualGlobal = 'Yo';
 let chatActivoId = null;
 let pollingIntervalId = null;
 let ultimoIdMensajeRecibido = 0;
+let selectedUsersForNewChat = [];
+let videoCallManager = null;
 
 // --- INICIALIZACIÓN AL CARGAR EL DOM ---
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,102 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarListenersFormularioMensajes();
     inicializarListenersPopUps();
     inicializarListenersOtros();
+    
+    // Inicializar el gestor de videollamadas después de cargar datos del usuario
+    // setTimeout(() => {
+    //     if (window.VideoCallManager) {
+    //         videoCallManager = new VideoCallManager();
+    //     }
+    // }, 1000);
 });
-
-// ... (otras funciones intactas hasta subirArchivoAFirebase)
-
-// --- FUNCIONES DE SUBIDA CON CLOUDINARY ---
-function subirArchivoACloudinary(file) {
-    if (!file || !chatActivoId) return;
-
-    const tempMessageId = `temp_${Date.now()}`;
-    mostrarMensajeEnUI({
-        idMensaje: tempMessageId,
-        idRemitente: idUsuarioActualGlobal,
-        texto: `Subiendo ${file.name}...`,
-        remitenteUsuario: nombreUsuarioActualGlobal,
-        remitenteAvatar: avatarUsuarioActualGlobal,
-        fechaEnvio: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        esTemporal: true
-    });
-
-    const cloudName = 'ddrffjanq';
-    const uploadPreset = 'poi_unsigned';
-    const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', uploadPreset);
-    formData.append('folder', 'poi');
-
-    fetch(url, {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        const downloadURL = data.secure_url;
-        const textoOriginal = document.getElementById('inputMensajeTexto').value.trim();
-        let tipoParaPlaceholder = file.type || '';
-        if (!tipoParaPlaceholder && file.name) {
-            const ext = file.name.split('.').pop().toLowerCase();
-            if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) tipoParaPlaceholder = 'image/';
-            else if (['mp4', 'webm', 'ogg', 'mov'].includes(ext)) tipoParaPlaceholder = 'video/';
-            else if (['mp3', 'wav', 'aac'].includes(ext)) tipoParaPlaceholder = 'audio/';
-        }
-        enviarMensajeAlServidor(textoOriginal, downloadURL, tipoParaPlaceholder);
-        const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
-        if (textoOriginal) document.getElementById('inputMensajeTexto').value = '';
-    })
-    .catch(error => {
-        console.error("Error al subir a Cloudinary:", error);
-        alert("No se pudo subir el archivo.");
-        const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
-    });
-}
-
-// Reemplazamos la llamada en los listeners
-function inicializarListenersFormularioMensajes() {
-    const formEnviarMensaje = document.getElementById('formEnviarMensaje');
-    const inputMensajeTexto = document.getElementById('inputMensajeTexto');
-    const btnAdjuntarMedia = document.getElementById('btnAdjuntarMedia');
-    const inputMediaFile = document.getElementById('inputMediaFile');
-    const btnEnviarUbicacion = document.getElementById('btnEnviarUbicacion');
-
-    if (btnAdjuntarMedia && inputMediaFile) {
-        btnAdjuntarMedia.addEventListener('click', () => inputMediaFile.click());
-        inputMediaFile.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file && chatActivoId) subirArchivoACloudinary(file);
-            inputMediaFile.value = null;
-        });
-    }
-
-    if(btnEnviarUbicacion) {
-        btnEnviarUbicacion.addEventListener('click', () => {
-            if (!chatActivoId) { alert("Selecciona un chat para enviar tu ubicación."); return; }
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    const googleMapsUrl = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
-                    enviarMensajeAlServidor(null, googleMapsUrl, 'location');
-                }, error => {
-                    console.error("Error obteniendo ubicación: ", error);
-                    alert("No se pudo obtener tu ubicación. Asegúrate de tener los permisos activados.");
-                });
-            } else {
-                alert("La geolocalización no es soportada por este navegador.");
-            }
-        });
-    }
-
-    if (formEnviarMensaje && inputMensajeTexto) {
-        formEnviarMensaje.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const texto = inputMensajeTexto.value.trim();
-            if (!chatActivoId) { alert("Selecciona un chat para enviar mensajes."); return; }
-            if (texto) enviarMensajeAlServidor(texto, null);
-        });
-    }
-}
 
 // --- CARGA DE DATOS INICIALES ---
 function cargarDatosUsuarioSidebar() {
@@ -133,9 +47,15 @@ function cargarDatosUsuarioSidebar() {
                         avatarUsuarioActualGlobal = `../multimedia/imagenPerfil/${data.avatar}`;
                         sidebarUserAvatarElement.src = avatarUsuarioActualGlobal;
                     } else {
-                        sidebarUserAvatarElement.src = '../multimedia/logo.jpg'; //
+                        sidebarUserAvatarElement.src = '../multimedia/logo.jpg';
                         avatarUsuarioActualGlobal = '../multimedia/logo.jpg';
                     }
+                }
+
+                // UNA VEZ QUE idUsuarioActualGlobal ESTÁ LISTO, INICIALIZAMOS VideoCallManager
+                if (window.VideoCallManager && !videoCallManager) { // Inicializar solo una vez
+                    videoCallManager = new VideoCallManager();
+                    videoCallManager.initializeAfterUserLoad(idUsuarioActualGlobal); // Pasar el ID
                 }
             } else {
                 console.warn('Sidebar: Datos de usuario no cargados.', data.message);
@@ -144,12 +64,11 @@ function cargarDatosUsuarioSidebar() {
         })
         .catch(error => {
             console.error('Error fatal cargando datos del sidebar:', error);
-            // window.location.href = 'LOGIN.html'; // Opcional: redirigir
         });
 }
 
 function cargarUltimosChats() {
-    const chatsDisplayContainer = document.querySelector('.chats-display'); //
+    const chatsDisplayContainer = document.querySelector('.chats-display');
     if (!chatsDisplayContainer) return;
     chatsDisplayContainer.innerHTML = '<p style="text-align:center; color: #8b6247;">Cargando tus chats...</p>';
 
@@ -167,17 +86,16 @@ function cargarUltimosChats() {
                 }
                 data.chats.forEach(chat => {
                     const chatDiv = document.createElement('div');
-                    chatDiv.classList.add('chats-active'); //
+                    chatDiv.classList.add('chats-active');
                     chatDiv.dataset.chatId = chat.idChat;
                     chatDiv.dataset.chatTipo = chat.tipo;
                     chatDiv.dataset.chatNombre = chat.nombreMostrado;
 
-                    let avatarSrc = '../multimedia/logo.jpg'; //
+                    let avatarSrc = '../multimedia/logo.jpg';
                     if (chat.tipo === 'Privado' && chat.avatarMostrado) {
                         avatarSrc = `../multimedia/imagenPerfil/${chat.avatarMostrado}`;
                     } else if (chat.tipo === 'Grupo') {
-                        avatarSrc = '../multimedia/group_avatar_default.png'; // Considera tener un avatar de grupo
-                        // Si no, usa el logo: avatarSrc = '../multimedia/logo.jpg';
+                        avatarSrc = '../multimedia/group_avatar_default.png';
                     }
                     const ultimoMensajeTexto = chat.ultimoMensajeTexto || "Haz clic para ver la conversación...";
 
@@ -214,6 +132,10 @@ function abrirChat(idChat, nombreChat, tipoChat) {
     ultimoIdMensajeRecibido = 0;
     chatActivoId = idChat;
 
+    if (videoCallManager) { // Verificar que la instancia exista
+        videoCallManager.currentChatId = idChat;
+    }
+
     const chatDisplayNameElement = document.getElementById('chatActivoNombre');
     if (chatDisplayNameElement) chatDisplayNameElement.textContent = nombreChat;
 
@@ -223,7 +145,7 @@ function abrirChat(idChat, nombreChat, tipoChat) {
         cargarMensajesDelChat(idChat);
     }
 
-    const crearTaskButton = document.getElementById('Crear'); // Botón Tasks del header
+    const crearTaskButton = document.getElementById('Crear');
     if (crearTaskButton) {
         if (tipoChat === 'Grupo') {
             crearTaskButton.style.pointerEvents = 'auto';
@@ -233,20 +155,24 @@ function abrirChat(idChat, nombreChat, tipoChat) {
             crearTaskButton.style.opacity = '0.5';
         }
     }
+    
+    // Notificar al VideoCallManager si existe
+    if (window.videoCallManager) {
+        window.videoCallManager.currentChatId = idChat;
+    }
+    
     iniciarPollingNuevosMensajes(idChat);
 }
 
 // --- FUNCIONES DE MENSAJERÍA ---
 function formatearTimestamp(sqlTimestamp) {
     if (!sqlTimestamp) return '';
-    const fechaString = sqlTimestamp.replace(' ', 'T'); // No añadir 'Z' para que se interprete como local
+    const fechaString = sqlTimestamp.replace(' ', 'T');
     const fecha = new Date(fechaString);
     if (isNaN(fecha.getTime())) {
         console.error("Fecha inválida recibida del servidor:", sqlTimestamp);
-        // Intentar un parseo más robusto o un formato por defecto si es necesario
         const parts = sqlTimestamp.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
         if (parts) {
-            // parts[0] es el match completo, parts[1] es año, parts[2] mes (0-11), etc.
             const dateFromParts = new Date(parts[1], parts[2] - 1, parts[3], parts[4], parts[5], parts[6]);
             if (!isNaN(dateFromParts.getTime())) return dateFromParts.toLocaleString('es-MX', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
         }
@@ -272,15 +198,15 @@ function mostrarMensajeEnUI(mensaje, agregarAlInicio = false) {
     const esMensajePropio = parseInt(mensaje.idRemitente, 10) === parseInt(idUsuarioActualGlobal, 10);
 
     const bubbleDiv = document.createElement('div');
-    bubbleDiv.classList.add(esMensajePropio ? 'window-bubble-dos' : 'window-bubble'); //
+    bubbleDiv.classList.add(esMensajePropio ? 'window-bubble-dos' : 'window-bubble');
     bubbleDiv.classList.add(esMensajePropio ? 'message-sent' : 'message-received');
     bubbleDiv.dataset.messageId = mensaje.idMensaje;
 
     const imgAvatar = document.createElement('img');
     imgAvatar.alt = esMensajePropio ? nombreUsuarioActualGlobal : mensaje.remitenteUsuario;
     imgAvatar.src = esMensajePropio ? avatarUsuarioActualGlobal : (mensaje.remitenteAvatar ? `../multimedia/imagenPerfil/${mensaje.remitenteAvatar}` : '../multimedia/logo.jpg');
-    imgAvatar.classList.add(esMensajePropio ? 'BubblePicDos' : 'BubblePic'); //
-    imgAvatar.onerror = function() { this.src = '../multimedia/logo.jpg'; }; // Fallback para avatares rotos
+    imgAvatar.classList.add(esMensajePropio ? 'BubblePicDos' : 'BubblePic');
+    imgAvatar.onerror = function() { this.src = '../multimedia/logo.jpg'; };
 
     const messageContentDiv = document.createElement('div');
     messageContentDiv.classList.add('message-content');
@@ -301,7 +227,7 @@ function mostrarMensajeEnUI(mensaje, agregarAlInicio = false) {
         const mediaContainer = document.createElement('div');
         mediaContainer.classList.add('media-message-container');
         const url = mensaje.multimediaUrl;
-        const esUrlDeGoogleMaps = url.includes('google.com/maps') || url.includes('googleusercontent.com/maps'); //
+        const esUrlDeGoogleMaps = url.includes('google.com/maps') || url.includes('googleusercontent.com/maps');
 
         if (esUrlDeGoogleMaps) {
             const link = document.createElement('a');
@@ -339,21 +265,18 @@ function mostrarMensajeEnUI(mensaje, agregarAlInicio = false) {
             link.target = "_blank";
             link.textContent = (mensaje.texto && mensaje.texto !== '[Archivo Adjunto]') ? mensaje.texto : (url.substring(url.lastIndexOf('/') + 1) || "Ver Archivo Adjunto");
             mediaContainer.appendChild(link);
-            // Si el texto del mensaje es solo el placeholder, no lo mostramos de nuevo
             if (mensaje.texto === '[Archivo Adjunto]' || mensaje.texto === link.textContent) contenidoPrincipalMostrado = true;
         }
         textContainerDiv.appendChild(mediaContainer);
     }
     
-    // Mostrar texto si no es un placeholder ya cubierto por la multimedia o si hay texto adicional
     if (!contenidoPrincipalMostrado || (mensaje.texto && mensaje.texto !== '[Imagen]' && mensaje.texto !== '[Video]' && mensaje.texto !== '[Audio]' && mensaje.texto !== '[Ubicación]' && mensaje.texto !== '[Archivo Adjunto]')) {
         textP.textContent = mensaje.texto || '';
         textContainerDiv.appendChild(textP);
-    } else if (textContainerDiv.childNodes.length === 0) { // Si no hay multimedia y el texto era placeholder
-        textP.textContent = mensaje.texto || ''; // Mostrar el placeholder si no hay nada más
+    } else if (textContainerDiv.childNodes.length === 0) {
+        textP.textContent = mensaje.texto || '';
          textContainerDiv.appendChild(textP);
     }
-
 
     const timestampP = document.createElement('p');
     timestampP.classList.add('message-timestamp');
@@ -375,8 +298,6 @@ function mostrarMensajeEnUI(mensaje, agregarAlInicio = false) {
         windowChatMessages.prepend(bubbleDiv);
     } else {
         windowChatMessages.appendChild(bubbleDiv);
-        // Solo hacer auto-scroll si el usuario no ha hecho scroll hacia arriba para ver mensajes antiguos
-        // Esta es una heurística simple, se puede mejorar
         if (windowChatMessages.scrollHeight - windowChatMessages.scrollTop < windowChatMessages.clientHeight + 200) {
              windowChatMessages.scrollTop = windowChatMessages.scrollHeight;
         }
@@ -446,7 +367,6 @@ function fetchNuevosMensajes(idChat) {
 }
 
 // --- INICIALIZACIÓN DE LISTENERS Y FUNCIONES ---
-/*
 function inicializarListenersFormularioMensajes() {
     const formEnviarMensaje = document.getElementById('formEnviarMensaje');
     const inputMensajeTexto = document.getElementById('inputMensajeTexto');
@@ -458,7 +378,7 @@ function inicializarListenersFormularioMensajes() {
         btnAdjuntarMedia.addEventListener('click', () => inputMediaFile.click());
         inputMediaFile.addEventListener('change', (event) => {
             const file = event.target.files[0];
-            if (file && chatActivoId) subirArchivoAFirebase(file);
+            if (file && chatActivoId) subirArchivoACloudinary(file);
             inputMediaFile.value = null;
         });
     }
@@ -485,59 +405,58 @@ function inicializarListenersFormularioMensajes() {
             event.preventDefault();
             const texto = inputMensajeTexto.value.trim();
             if (!chatActivoId) { alert("Selecciona un chat para enviar mensajes."); return; }
-            if (texto) enviarMensajeAlServidor(texto, null); // Solo envía si hay texto
-            // La subida de archivos se maneja por separado con su propio botón/evento
+            if (texto) enviarMensajeAlServidor(texto, null);
         });
     }
-} */
+}
 
-function subirArchivoAFirebase(file) {
+// --- FUNCIONES DE SUBIDA CON CLOUDINARY ---
+function subirArchivoACloudinary(file) {
     if (!file || !chatActivoId) return;
-    const { storageInstance, ref, uploadBytesResumable, getDownloadURL } = window.firebaseStorage;
-    if (!storageInstance) { alert("Firebase Storage no inicializado."); return; }
 
     const tempMessageId = `temp_${Date.now()}`;
     mostrarMensajeEnUI({
-        idMensaje: tempMessageId, idRemitente: idUsuarioActualGlobal,
-        texto: `Subiendo ${file.name}...`, remitenteUsuario: nombreUsuarioActualGlobal,
-        remitenteAvatar: avatarUsuarioActualGlobal, fechaEnvio: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        idMensaje: tempMessageId,
+        idRemitente: idUsuarioActualGlobal,
+        texto: `Subiendo ${file.name}...`,
+        remitenteUsuario: nombreUsuarioActualGlobal,
+        remitenteAvatar: avatarUsuarioActualGlobal,
+        fechaEnvio: new Date().toISOString().slice(0, 19).replace('T', ' '),
         esTemporal: true
     });
 
-    const filePath = `chats/${chatActivoId}/${idUsuarioActualGlobal}_${Date.now()}_${file.name}`;
-    const storageRef = ref(storageInstance, filePath);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const cloudName = 'ddrffjanq';
+    const uploadPreset = 'poi_unsigned';
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+    formData.append('folder', 'poi');
 
-    uploadTask.on('state_changed',
-        (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            const tempMsgElement = document.querySelector(`[data-message-id='${tempMessageId}'] .message-text`);
-            if (tempMsgElement) tempMsgElement.textContent = `Subiendo ${file.name} (${Math.round(progress)}%)...`;
-        },
-        (error) => {
-            console.error("Error Firebase Upload:", error);
-            alert("Error al subir archivo: " + error.message);
-            const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
-        },
-        () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                const textoOriginal = document.getElementById('inputMensajeTexto').value.trim();
-                let tipoParaPlaceholder = file.type || '';
-                if (!tipoParaPlaceholder && file.name) {
-                    const ext = file.name.split('.').pop().toLowerCase();
-                    if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) tipoParaPlaceholder = 'image/';
-                    else if (['mp4', 'webm', 'ogg', 'mov'].includes(ext)) tipoParaPlaceholder = 'video/';
-                    else if (['mp3', 'wav', 'aac'].includes(ext)) tipoParaPlaceholder = 'audio/';
-                }
-                enviarMensajeAlServidor(textoOriginal, downloadURL, tipoParaPlaceholder);
-                const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
-                if (textoOriginal) document.getElementById('inputMensajeTexto').value = '';
-            }).catch(error => {
-                console.error("Error URL Firebase:", error); alert("Error obteniendo URL de descarga.");
-                const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
-            });
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        const downloadURL = data.secure_url;
+        const textoOriginal = document.getElementById('inputMensajeTexto').value.trim();
+        let tipoParaPlaceholder = file.type || '';
+        if (!tipoParaPlaceholder && file.name) {
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) tipoParaPlaceholder = 'image/';
+            else if (['mp4', 'webm', 'ogg', 'mov'].includes(ext)) tipoParaPlaceholder = 'video/';
+            else if (['mp3', 'wav', 'aac'].includes(ext)) tipoParaPlaceholder = 'audio/';
         }
-    );
+        enviarMensajeAlServidor(textoOriginal, downloadURL, tipoParaPlaceholder);
+        const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
+        if (textoOriginal) document.getElementById('inputMensajeTexto').value = '';
+    })
+    .catch(error => {
+        console.error("Error al subir a Cloudinary:", error);
+        alert("No se pudo subir el archivo.");
+        const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
+    });
 }
 
 function enviarMensajeAlServidor(texto, multimediaUrl = null, tipoMultimedia = null) {
@@ -572,11 +491,10 @@ function enviarMensajeAlServidor(texto, multimediaUrl = null, tipoMultimedia = n
     .catch(error => { console.error('Error enviarMensajeAlServidor:', error); alert('Error de conexión.'); });
 }
 
-
 // --- INICIALIZACIÓN DE LISTENERS PARA POPUPS Y OTROS ---
 function inicializarListenersPopUps() {
     const popUpConfigs = [
-        { btnId: 'Crear',       popUpSelector: '.PopUp',         closeSelector: '.PopUp .close' }, // Tasks PopUp desde header
+        { btnId: 'Crear',       popUpSelector: '.PopUp',         closeSelector: '.PopUp .close' },
         { btnId: 'CrearReward', popUpSelector: '.PopUpReward',   closeSelector: '.PopUpReward .close-reward' },
         { btnId: 'CrearChat',   popUpSelector: '.PopUpChat',     closeSelector: '.PopUpChat .close-chat', action: loadUsersForNewChat },
         { btnId: 'CrearDelete', popUpSelector: '.PopUpDelete',   closeSelector: '.PopUpDelete .close-delete' }
@@ -589,9 +507,8 @@ function inicializarListenersPopUps() {
 
         if (btn && popUp) {
             btn.addEventListener('click', () => {
-                // Para el botón "Tasks", respetar si está deshabilitado visualmente
                 if (config.btnId === 'Crear' && btn.style.pointerEvents === 'none') {
-                    alert("Las tareas solo están disponibles en chats grupales."); // O manejar de otra forma
+                    alert("Las tareas solo están disponibles en chats grupales.");
                     return;
                 }
                 popUp.style.display = 'flex';
@@ -601,48 +518,33 @@ function inicializarListenersPopUps() {
         if (closeBtn && popUp) {
             closeBtn.addEventListener('click', () => {
                 popUp.style.display = 'none';
-                if (config.popUpSelector === '.PopUpChat') resetNewChatPopup(); // Resetear específico
+                if (config.popUpSelector === '.PopUpChat') resetNewChatPopup();
             });
         }
     });
-
-    // PopUp Llamada (tiene múltiples triggers)
-    const callTriggers = document.querySelectorAll('.call-trigger'); //
-    const popUpCall = document.querySelector('.PopUpCall'); //
-    const closeCallButton = popUpCall ? popUpCall.querySelector('.close-call') : null; //
-    if (popUpCall) {
-        callTriggers.forEach(icon => icon.addEventListener('click', () => popUpCall.style.display = 'flex')); //
-        if (closeCallButton) closeCallButton.addEventListener('click', () => popUpCall.style.display = 'none'); //
-    }
 }
 
 function inicializarListenersOtros() {
     // Scroll para usuarios en PopUpChat
-    const chatToContainerScrollOriginal = document.querySelector(".PopUpChat .chat-to"); //
+    const chatToContainerScrollOriginal = document.querySelector(".PopUpChat .chat-to");
     if (chatToContainerScrollOriginal) {
-        chatToContainerScrollOriginal.addEventListener("wheel", (event) => { //
-          event.preventDefault(); //
-          chatToContainerScrollOriginal.scrollLeft += event.deltaY; //
+        chatToContainerScrollOriginal.addEventListener("wheel", (event) => {
+            event.preventDefault();
+            chatToContainerScrollOriginal.scrollLeft += event.deltaY;
         });
     }
 
-    // Lógica para el PopUp de "Crear Chat" (ya está integrada en inicializarListenersPopUps y las funciones llamadas)
+    // Lógica para el PopUp de "Crear Chat"
     const startChatButton = document.getElementById('startChatButton');
     const groupChatNameInput = document.getElementById('groupChatNameInput');
-    let selectedUsersForNewChat = []; // Esta variable debe ser accesible por las funciones del PopUpChat
     const userListForNewChatContainer = document.getElementById('userListForNewChat');
     const chatToContainerNewChat = document.querySelector(".PopUpChat .chat-to");
     const groupChatNameInputContainer = document.querySelector('.PopUpChat .group-chat-name-container');
 
-
-    // (Las funciones resetNewChatPopup, loadUsersForNewChat, toggleUserSelection deben estar definidas globalmente
-    //  o pasadas como callbacks si se mueven dentro de DOMContentLoaded y se necesitan fuera)
-    //  En esta estructura, las he dejado globales.
-
     if (startChatButton) {
         startChatButton.addEventListener('click', function() {
             if (selectedUsersForNewChat.length === 0) {
-                alert("Please select at least one user to start a chat.");
+                alert("Por favor selecciona al menos un usuario para iniciar un chat.");
                 return;
             }
             let chatName = null;
@@ -650,7 +552,7 @@ function inicializarListenersOtros() {
             if (chatType === 'Grupo') {
                 chatName = groupChatNameInput.value.trim();
                 if (!chatName) {
-                    alert("Please enter a name for the group chat.");
+                    alert("Por favor ingresa un nombre para el chat grupal.");
                     return;
                 }
             }
@@ -670,7 +572,7 @@ function inicializarListenersOtros() {
                 const popUpChatElement = document.querySelector('.PopUpChat');
                 if (data.status === 'success') {
                     if(popUpChatElement) popUpChatElement.style.display = 'none';
-                    resetNewChatPopup(); // Llama a la función global
+                    resetNewChatPopup();
                     cargarUltimosChats();
                 }
             })
@@ -680,79 +582,25 @@ function inicializarListenersOtros() {
             });
         });
     }
-
-
-    // Simulación de participantes de llamada (código original)
-    const participants = [ { name: "Skibidi", img: "../multimedia/logo.jpg" } ]; //
-    const container_call = document.querySelector(".sep-call"); //
-    if (container_call) {
-        container_call.innerHTML = ""; //
-        participants.forEach(p => { //
-            container_call.innerHTML += ` 
-              <div class="new-call">
-                <img src="${p.img}" alt="${p.name}">
-              </div>
-            `; //
-        });
-        if (participants.length === 1) { //
-            container_call.style.display = "flex"; //
-            container_call.style.justifyContent = "center"; //
-            container_call.style.alignItems = "center"; //
-        }
-    }
 }
 
-// Funciones globales de utilidad (pueden ir al final o donde prefieras)
-function toggleMic(button) { //
-    const icon = button.querySelector('i'); //
-    icon.classList.toggle('fa-microphone'); //
-    icon.classList.toggle('fa-microphone-slash'); //
-}
-
-function toggleVideo(button) { //
-    const icon = button.querySelector('i'); //
-    icon.classList.toggle('fa-video-slash'); //
-    icon.classList.toggle('fa-video'); //
-}
-
-
-// Globales para el PopUp de Crear Chat (para que sean accesibles por las funciones)
-// Estas deben estar definidas en el mismo scope que las funciones que las usan.
-// Si las funciones están dentro de DOMContentLoaded, estas también deberían estarlo o ser pasadas.
-// Para simplicidad, si las funciones loadUsersForNewChat, etc., son globales, estas también.
-// Sin embargo, es mejor encapsular. Por ahora, las funciones que usan estas variables están dentro de DOMContentLoaded.
-// let selectedUsersForNewChat = []; // Ya definida dentro de DOMContentLoaded
-// const userListForNewChatContainer = document.getElementById('userListForNewChat'); // Se obtiene dentro de DOMContentLoaded
-// const chatToContainerNewChat = document.querySelector(".PopUpChat .chat-to"); // Se obtiene dentro de DOMContentLoaded
-// const groupChatNameInputContainer = document.querySelector('.PopUpChat .group-chat-name-container'); // Se obtiene
-// const groupChatNameInput = document.getElementById('groupChatNameInput'); // Se obtiene
-
-
-// Definición de funciones globales para crear nuevo chat (para que sean accesibles desde los listeners)
-// Mantenemos las definiciones de estas funciones fuera del DOMContentLoaded para que sean globales,
-// pero se llamarán desde los listeners que sí están en DOMContentLoaded.
+// Funciones para crear nuevo chat
 function resetNewChatPopup() {
     const userListForNewChatContainer = document.getElementById('userListForNewChat');
     const chatToContainerNewChat = document.querySelector(".PopUpChat .chat-to");
     const groupChatNameInputContainer = document.querySelector('.PopUpChat .group-chat-name-container');
     const groupChatNameInput = document.getElementById('groupChatNameInput');
-    // selectedUsersForNewChat se resetea donde se declara, o aquí si es global.
-    // Por seguridad, vamos a asumir que selectedUsersForNewChat se maneja en el scope del listener de CrearChat
-    // Lo ideal es que esta función sea llamada desde un scope donde selectedUsersForNewChat esté definida.
-    // Si selectedUsersForNewChat es global, esta función puede accederla.
-    // selectedUsersForNewChat = []; // Si la variable es global, esta línea sería aquí.
-                                // Pero la hemos puesto dentro del listener de DOMContentLoaded para el pop-up de crear chat.
-
+    
+    selectedUsersForNewChat = [];
 
     if (userListForNewChatContainer) {
-        userListForNewChatContainer.innerHTML = '<p class="loading-users-message" style="text-align:center; color: #8b6247;">Loading users...</p>';
+        userListForNewChatContainer.innerHTML = '<p class="loading-users-message" style="text-align:center; color: #8b6247;">Cargando usuarios...</p>';
     }
     if (chatToContainerNewChat) {
         while (chatToContainerNewChat.children.length > 1) {
             chatToContainerNewChat.removeChild(chatToContainerNewChat.lastChild);
         }
     }
-    // selectedUsersForNewChat es reseteada dentro del listener de CrearChat en DOMContentLoaded
     if (groupChatNameInputContainer) groupChatNameInputContainer.style.display = 'none';
     if (groupChatNameInput) groupChatNameInput.value = '';
 }
@@ -761,12 +609,11 @@ function loadUsersForNewChat() {
     const userListForNewChatContainer = document.getElementById('userListForNewChat');
     const chatToContainerNewChat = document.querySelector(".PopUpChat .chat-to");
     const groupChatNameInputContainer = document.querySelector('.PopUpChat .group-chat-name-container');
-    // selectedUsersForNewChat también se resetea en el listener de CrearChat de DOMContentLoaded
 
     if (!userListForNewChatContainer) return;
-    userListForNewChatContainer.innerHTML = '<p class="loading-users-message" style="text-align:center; color: #8b6247;">Loading users...</p>';
+    userListForNewChatContainer.innerHTML = '<p class="loading-users-message" style="text-align:center; color: #8b6247;">Cargando usuarios...</p>';
     
-    //selectedUsersForNewChat = []; // Ya se hace en el listener de CrearChat
+    selectedUsersForNewChat = [];
 
     if (chatToContainerNewChat) { 
         while (chatToContainerNewChat.children.length > 1) {
@@ -789,17 +636,16 @@ function loadUsersForNewChat() {
                 }
                 data.usuarios.forEach(user => {
                     const userDiv = document.createElement('div');
-                    userDiv.classList.add('new-convo'); //
+                    userDiv.classList.add('new-convo');
                     userDiv.style.cursor = 'pointer';
                     userDiv.dataset.userId = user.idUsuario;
                     userDiv.dataset.username = user.usuario;
 
                     const userImg = document.createElement('img');
-                    userImg.classList.add('new-pfp'); //
+                    userImg.classList.add('new-pfp');
                     userImg.src = user.avatar ? `../multimedia/imagenPerfil/${user.avatar}` : '../multimedia/logo.jpg';
                     userImg.alt = user.usuario;
                     userImg.onerror = function() { this.src = '../multimedia/logo.jpg'; };
-
 
                     const userNameP = document.createElement('p');
                     userNameP.textContent = `${user.nombres || ''} ${user.paterno || ''} (${user.usuario})`;
@@ -808,18 +654,6 @@ function loadUsersForNewChat() {
                     userDiv.appendChild(userNameP);
 
                     userDiv.addEventListener('click', function() {
-                        // Necesitamos que selectedUsersForNewChat sea accesible aquí.
-                        // Si toggleUserSelection es global, selectedUsersForNewChat también debe serlo o pasarse.
-                        // O, definir toggleUserSelection dentro del mismo scope que selectedUsersForNewChat.
-                        // Por ahora, asumimos que toggleUserSelection puede acceder/modificar la selectedUsersForNewChat
-                        // definida en el scope del DOMContentLoaded para el PopUpChat.
-                        // Esto es un poco problemático si las funciones son realmente globales y no están dentro de DOMContentLoaded.
-                        // La solución es que selectedUsersForNewChat sea global o que toggleUserSelection se defina donde está el array.
-                        // Para este caso, la variable selectedUsersForNewChat está definida dentro del DOMContentLoaded,
-                        // y toggleUserSelection también.
-
-                        // Esta llamada está bien porque toggleUserSelection está definida dentro del mismo DOMContentLoaded
-                        // donde se define `selectedUsersForNewChat`.
                         toggleUserSelectionForNewChat(user.idUsuario, user.usuario);
                     });
                     userListForNewChatContainer.appendChild(userDiv);
@@ -836,66 +670,130 @@ function loadUsersForNewChat() {
         });
 }
 
-// Se renombra para evitar colisión si hubiera otra función toggleUserSelection
 function toggleUserSelectionForNewChat(userId, username) {
-    // Estas variables necesitan ser accesibles. Si esta función es global,
-    // las variables deben ser globales o pasadas como parámetros.
-    // En la estructura actual, estas se obtienen dentro de DOMContentLoaded
-    // y selectedUsersForNewChat también está allí.
-    // Si esta función es llamada desde loadUsersForNewChat (que es global),
-    // necesitará acceder a selectedUsersForNewChat (que está en DOMContentLoaded)
-    // LO MEJOR ES MANTENER ESTAS FUNCIONES DENTRO DE DOMContentLoaded
-    // O REESTRUCTURAR para que selectedUsersForNewChat sea manejado adecuadamente.
-
-    // Re-obteniendo selectores aquí para asegurar que están disponibles,
-    // asumiendo que esta función podría ser llamada desde un contexto donde
-    // las variables originales de DOMContentLoaded no están directamente en scope.
-    // ESTO NO ES IDEAL. Lo ideal es que esta función esté dentro del mismo scope que las variables
-    // o que las variables sean pasadas.
-    const localUserListContainer = document.getElementById('userListForNewChat');
-    const localChatToContainer = document.querySelector(".PopUpChat .chat-to");
-    const localGroupChatNameContainer = document.querySelector('.PopUpChat .group-chat-name-container');
-    // Y selectedUsersForNewChat debe ser la del scope correcto.
-    // Voy a asumir que esta función se moverá DENTRO del DOMContentLoaded o
-    // que selectedUsersForNewChat se hará más global (no recomendado).
-    
-    // Para la corrección, voy a asumir que esta función *es* llamada desde
-    // dentro de DOMContentLoaded donde `selectedUsersForNewChat` está definida.
-    // Y que localUserListContainer y localChatToContainer son los correctos.
-    // Las variables usadas serán las del scope superior (DOMContentLoaded)
-    // si esta función también está dentro de DOMContentLoaded.
-
-    const selectedUsersArray = window.currentSelectedUsersForNewChat; // Usar una variable global temporalmente
     const userListContainer = document.getElementById('userListForNewChat');
     const chatToCont = document.querySelector('.PopUpChat .chat-to');
     const groupChatNameCont = document.querySelector('.PopUpChat .group-chat-name-container');
 
-
-    const index = selectedUsersArray.indexOf(userId);
+    const index = selectedUsersForNewChat.indexOf(userId);
     const userElementInList = userListContainer.querySelector(`.new-convo[data-user-id='${userId}']`);
 
     if (index > -1) { 
-        selectedUsersArray.splice(index, 1);
+        selectedUsersForNewChat.splice(index, 1);
         const buttonToRemove = chatToCont.querySelector(`button[data-user-id='${userId}']`);
         if (buttonToRemove) buttonToRemove.remove();
         if (userElementInList) userElementInList.classList.remove('selected-for-chat');
     } else { 
-        selectedUsersArray.push(userId);
+        selectedUsersForNewChat.push(userId);
         const userButton = document.createElement('button');
         userButton.setAttribute('data-user-id', userId);
         userButton.innerHTML = `${username} <i class="fa-solid fa-xmark"></i>`;
         userButton.addEventListener('click', function() {
-            toggleUserSelectionForNewChat(userId, username); // Recursivo para el botón
+            toggleUserSelectionForNewChat(userId, username);
         });
         if (chatToCont) chatToCont.appendChild(userButton);
         if (userElementInList) userElementInList.classList.add('selected-for-chat');
     }
 
     if (groupChatNameCont) {
-        if (selectedUsersArray.length > 1) {
+        if (selectedUsersForNewChat.length > 1) {
             groupChatNameCont.style.display = 'block';
         } else {
             groupChatNameCont.style.display = 'none';
         }
     }
 }
+
+// Función para obtener usuarios del chat actual
+async function obtenerUsuariosDelChat(chatId) {
+    try {
+        const response = await fetch(`../controllers/getUsuariosChatController.php?idChat=${chatId}`);
+        if (!response.ok) throw new Error('Error al obtener usuarios del chat');
+        const data = await response.json();
+        return data.usuarios || [];
+    } catch (error) {
+        console.error('Error obteniendo usuarios del chat:', error);
+        return [];
+    }
+}
+
+// Agregar estilos CSS dinámicamente para las videollamadas
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+    .video-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #fff;
+        font-size: 18px;
+    }
+    
+    .video-error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #ff4757;
+        font-size: 16px;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .call-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4a9eff;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(74, 158, 255, 0.5);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+    }
+    
+    .call-notification-buttons {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+    }
+    
+    .call-notification-buttons button {
+        padding: 5px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .call-notification-buttons .accept-call {
+        background-color: #4caf50;
+        color: white;
+    }
+    
+    .call-notification-buttons .accept-call:hover {
+        background-color: #45a049;
+    }
+    
+    .call-notification-buttons .reject-call {
+        background-color: #f44336;
+        color: white;
+    }
+    
+    .call-notification-buttons .reject-call:hover {
+        background-color: #da190b;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+`;
+document.head.appendChild(styleSheet);

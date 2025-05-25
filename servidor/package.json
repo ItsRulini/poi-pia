@@ -1,0 +1,24 @@
+{
+  "name": "chichat-signaling-server",
+  "version": "1.0.0",
+  "description": "WebSocket signaling server for ChiChat video calls",
+  "main": "signaling-server.js",
+  "scripts": {
+    "start": "node signaling-server.js",
+    "dev": "nodemon signaling-server.js"
+  },
+  "keywords": [
+    "websocket",
+    "webrtc",
+    "signaling",
+    "video-call"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
