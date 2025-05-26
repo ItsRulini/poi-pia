@@ -23,7 +23,8 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario'] instanceof Usuario) {
         'avatar' => $usuario->avatar,
         'fechaNacimiento' => $usuario->fechaNacimiento,
         'descripcion' => $usuario->descripcion,
-        'fechaRegistro' => $usuario->fechaRegistro
+        'fechaRegistro' => $usuario->fechaRegistro,
+        'estatusEncriptacion' => $usuario->estatusEncriptacion ?? 0
     ];
 
     $recompensas = [];

@@ -20,8 +20,8 @@ class UsuarioDAO
             return false;
         }
 
-        $sql = "INSERT INTO Usuario (usuario, correo, contraseña, nombres, paterno, materno, avatar, fechaNacimiento, descripcion, estatusConexion, fechaRegistro) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        $sql = "INSERT INTO Usuario (usuario, correo, contraseña, nombres, paterno, materno, avatar, fechaNacimiento, descripcion, estatusConexion, estatusEncriptacion, fechaRegistro) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $this->conn->prepare($sql);
         if ($stmt === false) {
@@ -33,10 +33,11 @@ class UsuarioDAO
         // Valores por defecto si son null en el objeto y la BD los maneja (excepto CURRENT_TIMESTAMP)
         $descripcion = "I am a new user"; // Valor por defecto
         $estatusConexion = $usuario->estatusConexion ?? false;
+        $estatusEncriptacion = $usuario->estatusEncriptacion ?? false;
 
         // Cambiar el tipo para estatusConexion de 's' a 'i'
         $stmt->bind_param(
-            "sssssssssi", // La última 's' cambia a 'i'
+            "sssssssssii", // La última 's' cambia a 'i' y agregamos otro 'i' para estatusEncriptacion
             $usuario->usuario,
             $usuario->correo,
             $contraseñaHasheada,
@@ -46,7 +47,8 @@ class UsuarioDAO
             $usuario->avatar, // Este es $avatarParaBD que es string o null
             $usuario->fechaNacimiento, // Asegúrate que esto sea un string en formato 'YYYY-MM-DD'
             $descripcion,
-            $estatusConexion // Usar el entero
+            $estatusConexion, // Usar el entero
+            $estatusEncriptacion // Usar el entero
         );
 
         if ($stmt->execute()) {
@@ -87,7 +89,7 @@ class UsuarioDAO
     public function autenticarUsuario($login, $contraseña)
     {
         // Buscar por usuario o correo
-        $sql = "SELECT idUsuario, usuario, correo, contraseña, nombres, paterno, materno, avatar, fechaNacimiento, descripcion, estatusConexion, fechaRegistro 
+        $sql = "SELECT idUsuario, usuario, correo, contraseña, nombres, paterno, materno, avatar, fechaNacimiento, descripcion, estatusConexion, fechaRegistro, estatusEncriptacion 
                 FROM Usuario WHERE usuario = ? OR correo = ?";
         $stmt = $this->conn->prepare($sql);
         if ($stmt === false) {
@@ -118,6 +120,7 @@ class UsuarioDAO
             $usuario->descripcion = $usuarioData['descripcion'];
             $usuario->estatusConexion = $usuarioData['estatusConexion'];
             $usuario->fechaRegistro = $usuarioData['fechaRegistro'];
+            $usuario->estatusEncriptacion = $usuarioData['estatusEncriptacion'];
 
             return $usuario; // Devolver el objeto Usuario
         }

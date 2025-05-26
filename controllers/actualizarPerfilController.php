@@ -121,15 +121,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if ($usuarioDAO->actualizarUsuario($usuarioModificado, $nuevaContraseña)) {
-        // Actualizar el objeto Usuario en la sesión
-        $usuarioActual->nombres = $nombres;
-        $usuarioActual->paterno = $paterno;
-        $usuarioActual->materno = $materno;
-        $usuarioActual->correo = $correo;
-        $usuarioActual->fechaNacimiento = $fechaNacimiento;
-        $usuarioActual->avatar = $avatarParaBD;
-        // Si la contraseña se actualizó, el DAO ya la hasheó. No la guardamos en sesión.
-        $_SESSION['usuario'] = $usuarioActual; // Guardar el objeto actualizado
+            $usuarioActual->nombres = $nombres;
+            $usuarioActual->paterno = $paterno;
+            $usuarioActual->materno = $materno;
+            $usuarioActual->correo = $correo;
+            $usuarioActual->fechaNacimiento = $fechaNacimiento;
+            $usuarioActual->avatar = $avatarParaBD;
+            // El estado de encriptación se mantiene como está (no se modifica desde este formulario)
+            // Si la contraseña se actualizó, el DAO ya la hasheó. No la guardamos en sesión.
+            $_SESSION['usuario'] = $usuarioActual; // Guardar el objeto actualizado
 
         $response['status'] = 'success';
         $response['message'] = 'Perfil actualizado exitosamente.';

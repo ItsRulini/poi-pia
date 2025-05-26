@@ -7,6 +7,7 @@ class Mensaje {
     public $texto;
     public $multimediaUrl;
     public $fechaEnvio;
+    public $esEncriptado; // NUEVO CAMPO
 
     public function __construct() { }
 

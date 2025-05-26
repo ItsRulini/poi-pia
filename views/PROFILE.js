@@ -17,6 +17,45 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+
+
+    // const encryptionToggle = ;
+    // const encryptionStatus = ;
+    const encryptionToggle = document.getElementById('encryptionToggle');
+    const encryptionStatus = document.getElementById('encryptionStatus');
+    if (encryptionToggle) {
+        encryptionToggle.addEventListener('change', function() {
+            const estaEncriptado = encryptionToggle.checked ? 1 : 0;
+            fetch('../controllers/actualizarEncriptacionController.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ estatusEncriptacion: estaEncriptado })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (encryptionStatus) {
+                        encryptionStatus.textContent = estaEncriptado ? 'Encriptado' : 'No encriptado';
+                    }
+                } else {
+                    if (encryptionStatus) {
+                        encryptionStatus.textContent = 'Error al actualizar';
+                    }
+                    console.error('Error al actualizar el estado de encriptación:', data.message);
+                }
+            })
+            .catch(error => {
+                if (encryptionStatus) {
+                    encryptionStatus.textContent = 'Error de conexión';
+                }
+                console.error('Error al guardar cambios:', error);
+                alert('Error de conexión al guardar los cambios.');
+            });
+        });
+    }
+
     // --- Cargar Datos del Perfil ---
     function cargarDatosPerfil() {
         fetch('../controllers/perfilController.php') // Ajustar ruta si es necesario
@@ -46,6 +85,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('profileMemberSince').value = fechaRegistro;
                     document.getElementById('profileMemberSince').readOnly = true;
 
+                    // Cargar estado de encriptación
+                    const encryptionToggle = document.getElementById('encryptionToggle');
+                    const encryptionStatus = document.getElementById('encryptionStatus');
+                    if (encryptionToggle && encryptionStatus) {
+                        encryptionToggle.checked = user.estatusEncriptacion == 1;
+                        actualizarTextoEncriptacion(user.estatusEncriptacion == 1);
+                    }
+
+                    function actualizarTextoEncriptacion(estaEncriptado) {
+                        if (encryptionStatus) {
+                            encryptionStatus.textContent = estaEncriptado ? 'Encriptado' : 'No encriptado';
+                        }
+                    }
 
                     if (user.avatar) {
                         // Asumimos que la carpeta multimedia está en relación al HTML/PHP que sirve la imagen
@@ -107,6 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error al guardar cambios:', error);
             alert('Error de conexión al guardar los cambios.');
         });
+
+        
     }
 
     // --- Sección de Recompensas ---

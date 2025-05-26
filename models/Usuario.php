@@ -13,6 +13,7 @@ class Usuario {
     public $descripcion;
     public $estatusConexion;
     public $fechaRegistro;
+    public $estatusEncriptacion; // NUEVO CAMPO
 
     public function __construct() { }
 }

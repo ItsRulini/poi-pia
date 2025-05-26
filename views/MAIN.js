@@ -8,6 +8,7 @@ let chatActivoId = null;
 let pollingIntervalId = null;
 let ultimoIdMensajeRecibido = 0;
 let selectedUsersForNewChat = [];
+let estatusEncriptacionGlobal = false; // NUEVA VARIABLE
 
 // Nuevas variables para el sistema de tareas
 let esAdminChatActivo = false;
@@ -35,6 +36,52 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarListenersOtros();
     inicializarListenersTareas(); // Nueva función para tareas
 });
+
+function actualizarIndicadorEncriptacion() {
+    const encryptionIndicator = document.getElementById('encryptionIndicator');
+    if (encryptionIndicator) {
+        if (estatusEncriptacionGlobal) {
+            encryptionIndicator.style.display = 'flex';
+        } else {
+            encryptionIndicator.style.display = 'none';
+        }
+    }
+}
+
+// Actualizar el estado de encriptación cuando se cambie desde el perfil
+function actualizarEstadoEncriptacionEnMemoria(nuevoEstado) {
+    estatusEncriptacionGlobal = nuevoEstado;
+    actualizarIndicadorEncriptacion();
+}
+
+// Función para recargar el estado de encriptación del usuario (útil después de cambios en el perfil)
+function recargarEstadoEncriptacion() {
+    fetch('../controllers/getMainUsuarioController.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.hasOwnProperty('estatusEncriptacion')) {
+                estatusEncriptacionGlobal = data.estatusEncriptacion == 1;
+                actualizarIndicadorEncriptacion();
+            }
+        })
+        .catch(error => {
+            console.error('Error recargando estado de encriptación:', error);
+        });
+}
+
+// Verificar cambios en el localStorage (para sincronizar entre pestañas)
+window.addEventListener('storage', function(e) {
+    if (e.key === 'userEncryptionStatus') {
+        estatusEncriptacionGlobal = e.newValue === 'true';
+        actualizarIndicadorEncriptacion();
+    }
+});
+
+// Al volver de la página de perfil, recargar el estado
+window.addEventListener('focus', function() {
+    recargarEstadoEncriptacion();
+});
+
 
 // --- NUEVA FUNCIÓN: INICIALIZAR LISTENERS DE TAREAS ---
 function inicializarListenersTareas() {
@@ -118,6 +165,7 @@ function cargarDatosUsuarioSidebar() {
 
                 idUsuarioActualGlobal = data.idUsuario;
                 nombreUsuarioActualGlobal = data.usuario;
+                estatusEncriptacionGlobal = data.estatusEncriptacion == 1; // Actualizar estado de encriptación
 
                 if (sidebarUsernameElement) sidebarUsernameElement.textContent = data.usuario || 'Usuario';
                 if (sidebarUserAvatarElement) {
@@ -129,6 +177,9 @@ function cargarDatosUsuarioSidebar() {
                         avatarUsuarioActualGlobal = '../multimedia/logo.jpg';
                     }
                 }
+                
+                // Actualizar indicador de encriptación
+                actualizarIndicadorEncriptacion();
             } else {
                 console.warn('Sidebar: Datos de usuario no cargados.', data.message);
                 if (data.message && data.message.toLowerCase().includes('no autenticado')) window.location.href = 'LOGIN.html';
@@ -1090,6 +1141,15 @@ function mostrarMensajeEnUI(mensaje, agregarAlInicio = false) {
     const senderP = document.createElement('p');
     senderP.classList.add('message-sender');
     senderP.textContent = esMensajePropio ? 'Tú' : (mensaje.remitenteUsuario || 'Usuario');
+
+    // Añadir indicador de encriptación si el mensaje está encriptado
+    if (mensaje.esEncriptado == 1) {
+        const lockIcon = document.createElement('i');
+        lockIcon.className = 'fa-solid fa-lock';
+        lockIcon.style.cssText = 'font-size: 10px; margin-left: 5px; color: #4caf50;';
+        lockIcon.title = 'Mensaje encriptado';
+        senderP.appendChild(lockIcon);
+    }
     
     const textContainerDiv = document.createElement('div');
     textContainerDiv.classList.add('message-text-container');

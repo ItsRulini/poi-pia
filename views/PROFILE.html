@@ -45,7 +45,26 @@
                 <div class="profile-save-changes">
                     <button type="submit" class="btn-save-changes">Save Changes</button> </div>
             </form>
-            <div class="separador-dos"><hr class="h2"></div> <div class="profile-my-rewards">
+            <div class="separador-dos"><hr class="h2"></div>
+            
+            <!-- Nueva sección de encriptación -->
+            <div class="profile-encryption-section">
+                <div class="profile-icon-encryption">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <p>Message Encryption</p>
+                </div>
+                <div class="profile-encryption-toggle">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="encryptionToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <p id="encryptionStatus">Encryption: <span class="status-text">Disabled</span></p>
+                </div>
+                <p class="encryption-info">When enabled, your messages will be encrypted before being stored in the database.</p>
+            </div>
+            
+            <div class="separador-dos"><hr class="h2"></div>
+            <div class="profile-my-rewards">
                 <div class="profile-icon-rewards"> <i class="fa-solid fa-trophy"></i>
                     <p>My Rewards</p>
                 </div>
@@ -55,7 +74,7 @@
                     You don't have any rewards yet. Do a task for getting one!
                 </p>
             </div>
-            </div>
+        </div>
     </div>
 
     <div class="PopUp">

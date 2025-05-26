@@ -18,6 +18,7 @@ if (!isset($_SESSION['usuario']) || !($_SESSION['usuario'] instanceof Usuario)) 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $idUsuarioActual = $_SESSION['usuario']->idUsuario;
+    $usuarioActual = $_SESSION['usuario'];
     
     // Los datos ahora siempre vendrán como JSON desde el nuevo flujo de enviarMensajeAlServidor
     $datosJSON = file_get_contents('php://input');
@@ -47,7 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nuevoMensaje->texto = $textoMensaje; // Puede ser el texto o el placeholder
     $nuevoMensaje->multimediaUrl = $multimediaUrl;
 
-    $idMensajeGuardado = $mensajeDAO->guardarMensaje($nuevoMensaje);
+    // Verificar si el usuario tiene encriptación activa
+    $encriptacionActiva = isset($usuarioActual->estatusEncriptacion) && $usuarioActual->estatusEncriptacion == 1;
+    
+    $idMensajeGuardado = $mensajeDAO->guardarMensaje($nuevoMensaje, $encriptacionActiva);
 
     if ($idMensajeGuardado) {
         $response['status'] = 'success';
@@ -57,11 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'idMensaje' => $idMensajeGuardado,
             'idRemitente' => $idUsuarioActual,
             'idChat' => (int)$idChat,
-            'texto' => $textoMensaje, // El texto que se guardó
+            'texto' => $textoMensaje, // El texto ORIGINAL (no encriptado) para mostrar en UI
             'multimediaUrl' => $multimediaUrl,
             'fechaEnvio' => date('Y-m-d H:i:s'), // O mejor obtenerlo de la BD post-inserción
             'remitenteUsuario' => $_SESSION['usuario']->usuario,
-            'remitenteAvatar' => $_SESSION['usuario']->avatar
+            'remitenteAvatar' => $_SESSION['usuario']->avatar,
+            'esEncriptado' => $encriptacionActiva ? 1 : 0
         ];
     } else {
         $response['message'] = $mensajeDAO->getUltimoError() ?: 'No se pudo guardar el mensaje.';

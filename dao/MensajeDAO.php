@@ -1,6 +1,7 @@
 <?php
 // dao/MensajeDAO.php
 require_once __DIR__ . '/../models/Mensaje.php';
+require_once __DIR__ . '/../utils/EncryptionUtil.php';
 
 class MensajeDAO {
     private $conn;
@@ -14,9 +15,18 @@ class MensajeDAO {
         return $this->ultimoError;
     }
 
-    public function guardarMensaje(Mensaje $mensaje) {
-        $sql = "INSERT INTO Mensaje (idRemitente, idChat, texto, multimediaUrl, fechaEnvio) 
-                VALUES (?, ?, ?, ?, NOW())";
+    public function guardarMensaje(Mensaje $mensaje, $usuarioEncriptacionActiva = false) {
+        $textoParaGuardar = $mensaje->texto;
+        $esEncriptado = 0;
+        
+        // Si el usuario tiene encriptación activa, encriptar el texto
+        if ($usuarioEncriptacionActiva && !empty($mensaje->texto)) {
+            $textoParaGuardar = EncryptionUtil::encrypt($mensaje->texto);
+            $esEncriptado = 1;
+        }
+        
+        $sql = "INSERT INTO Mensaje (idRemitente, idChat, texto, multimediaUrl, fechaEnvio, esEncriptado) 
+                VALUES (?, ?, ?, ?, NOW(), ?)";
         
         $stmt = $this->conn->prepare($sql);
         if ($stmt === false) {
@@ -28,11 +38,12 @@ class MensajeDAO {
         // multimediaUrl puede ser null si no es un mensaje multimedia
         $multimedia = $mensaje->multimediaUrl ?? null;
 
-        $stmt->bind_param("iiss", 
+        $stmt->bind_param("iissi", 
             $mensaje->idRemitente, 
             $mensaje->idChat, 
-            $mensaje->texto,
-            $multimedia 
+            $textoParaGuardar,
+            $multimedia,
+            $esEncriptado
         );
 
         if ($stmt->execute()) {
@@ -50,7 +61,7 @@ class MensajeDAO {
     public function obtenerMensajesPorChat($idChat, $limit = 50, $offset = 0) {
         $mensajes = [];
         // Unir con Usuario para obtener el nombre del remitente y su avatar
-        $sql = "SELECT m.idMensaje, m.idRemitente, m.idChat, m.texto, m.multimediaUrl, m.fechaEnvio,
+        $sql = "SELECT m.idMensaje, m.idRemitente, m.idChat, m.texto, m.multimediaUrl, m.fechaEnvio, m.esEncriptado,
                        u.usuario AS remitenteUsuario, u.avatar AS remitenteAvatar
                 FROM Mensaje m
                 JOIN Usuario u ON m.idRemitente = u.idUsuario
@@ -75,6 +86,10 @@ class MensajeDAO {
 
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
+            // Desencriptar el mensaje si está encriptado
+            if ($row['esEncriptado'] == 1 && !empty($row['texto'])) {
+                $row['texto'] = EncryptionUtil::decrypt($row['texto']);
+            }
             $mensajes[] = $row;
         }
         $stmt->close();
@@ -83,7 +98,7 @@ class MensajeDAO {
 
     public function obtenerNuevosMensajesPorChat($idChat, $ultimoIdMensajeConocido, $limit = 50) {
         $mensajes = [];
-        $sql = "SELECT m.idMensaje, m.idRemitente, m.idChat, m.texto, m.multimediaUrl, m.fechaEnvio,
+        $sql = "SELECT m.idMensaje, m.idRemitente, m.idChat, m.texto, m.multimediaUrl, m.fechaEnvio, m.esEncriptado,
                     u.usuario AS remitenteUsuario, u.avatar AS remitenteAvatar
                 FROM Mensaje m
                 JOIN Usuario u ON m.idRemitente = u.idUsuario
@@ -108,10 +123,13 @@ class MensajeDAO {
 
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
+            // Desencriptar el mensaje si está encriptado
+            if ($row['esEncriptado'] == 1 && !empty($row['texto'])) {
+                $row['texto'] = EncryptionUtil::decrypt($row['texto']);
+            }
             $mensajes[] = $row;
         }
         $stmt->close();
         return $mensajes; // Devuelve array vacío si no hay nuevos, o los mensajes si los hay
     }
 }
-?>

@@ -14,7 +14,8 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario'] instanceof Usuario) {
         'status' => 'success',
         'idUsuario' => $usuario->idUsuario, // <-- AÑADIR ESTO
         'usuario' => $usuario->usuario,
-        'avatar' => $usuario->avatar
+        'avatar' => $usuario->avatar,
+        'estatusEncriptacion' => $usuario->estatusEncriptacion ?? 0
     ];
 } else {
     // Para depurar, puedes ver qué hay realmente en $_SESSION['usuario']
