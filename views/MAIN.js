@@ -483,28 +483,44 @@ function mostrarMensajeTareas(mensaje) {
 function cargarUsuariosParaTarea() {
     if (!chatActivoId) return;
     
-    const taskCheck = document.querySelector('.task-check');
-    if (!taskCheck) return;
-    
     fetch(`../controllers/getUsuariosChatController.php?idChat=${chatActivoId}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success' && data.usuarios) {
-                taskCheck.innerHTML = '<h3>Esta tarea será asignada a:</h3>';
+                // CORREGIDO: Buscar el contenedor correcto para mostrar usuarios
+                const taskInfoContainer = document.querySelector('.task-info');
+                if (!taskInfoContainer) return;
+                
+                // Buscar o crear el contenedor de usuarios asignados
+                let usuariosContainer = taskInfoContainer.querySelector('.usuarios-asignados-container');
+                if (!usuariosContainer) {
+                    usuariosContainer = document.createElement('div');
+                    usuariosContainer.classList.add('usuarios-asignados-container');
+                    usuariosContainer.style.marginBottom = '15px';
+                    
+                    // Insertar antes del contenedor de recompensa personalizada
+                    const recompensaContainer = taskInfoContainer.querySelector('.task-check');
+                    if (recompensaContainer) {
+                        taskInfoContainer.insertBefore(usuariosContainer, recompensaContainer);
+                    } else {
+                        taskInfoContainer.appendChild(usuariosContainer);
+                    }
+                }
+                
+                usuariosContainer.innerHTML = '<h3>Esta tarea será asignada a:</h3>';
                 
                 const usuariosNoAdmin = data.usuarios.filter(u => !u.esUsuarioActual);
                 if (usuariosNoAdmin.length === 0) {
-                    taskCheck.innerHTML += '<p style="color: #888;">No hay otros usuarios en este chat.</p>';
+                    usuariosContainer.innerHTML += '<p style="color: #888;">No hay otros usuarios en este chat.</p>';
                 } else {
                     usuariosNoAdmin.forEach(usuario => {
-                        taskCheck.innerHTML += `<p>• ${usuario.nombreCompleto} (@${usuario.usuario})</p>`;
+                        usuariosContainer.innerHTML += `<p>• ${usuario.nombreCompleto} (@${usuario.usuario})</p>`;
                     });
                 }
             }
         })
         .catch(error => {
             console.error('Error cargando usuarios para tarea:', error);
-            taskCheck.innerHTML = '<h3>Error al cargar usuarios</h3>';
         });
 }
 
@@ -1328,17 +1344,50 @@ function fetchNuevosMensajes(idChat) {
 }
 
 // --- FUNCIONES DE LISTENERS EXISTENTES (mantenidas) ---
+// En MAIN.js
+/*
 function inicializarListenersFormularioMensajes() {
     const formEnviarMensaje = document.getElementById('formEnviarMensaje');
     const inputMensajeTexto = document.getElementById('inputMensajeTexto');
+    const btnAdjuntarMedia = document.getElementById('btnAdjuntarMedia');
+    const inputMediaFile = document.getElementById('inputMediaFile'); // Este es el input de tipo file
+    const btnEnviarUbicacion = document.getElementById('btnEnviarUbicacion');
 
+    // DEBUG: Verificar si los elementos existen
+    console.log("inicializarListenersFormularioMensajes: btnAdjuntarMedia:", btnAdjuntarMedia, "inputMediaFile:", inputMediaFile);
+
+    if (btnAdjuntarMedia && inputMediaFile) {
+        btnAdjuntarMedia.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevenir cualquier acción por defecto del ícono si está en un form
+            console.log("Clic en btnAdjuntarMedia"); // DEBUG
+            inputMediaFile.click(); // Simular clic en el input file oculto
+        });
+
+        inputMediaFile.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            console.log("Archivo seleccionado por inputMediaFile:", file); // DEBUG
+            if (file && chatActivoId) {
+                subirArchivoACloudinary(file);
+            } else if (!chatActivoId) {
+                alert("Por favor, selecciona un chat antes de adjuntar un archivo.");
+                console.warn("Intento de subir archivo sin chat activo.");
+            }
+            // Considera resetear el valor del input para permitir seleccionar el mismo archivo de nuevo
+            // inputMediaFile.value = null; // Puedes hacerlo aquí o después de que la subida termine
+        });
+    }
+    // ... (resto de la función para enviar ubicación y mensajes de texto)
+    // Asegúrate que el listener del form no interfiera.
     if (formEnviarMensaje && inputMensajeTexto) {
         formEnviarMensaje.addEventListener('submit', (event) => {
             event.preventDefault();
             const texto = inputMensajeTexto.value.trim();
             if (!chatActivoId) { alert("Selecciona un chat para enviar mensajes."); return; }
-            if (texto) {
+            if (texto) { // Solo enviar si hay texto, los adjuntos se envían por su propio flujo
                 enviarMensajeAlServidor(texto, null);
+            } else if (!texto && !document.querySelector('#inputMediaFile').files.length) {
+                // No hacer nada si el input está vacío y no se está subiendo un archivo
+                // (la subida de archivo ya se maneja por el 'change' event)
             }
         });
     }
@@ -1374,7 +1423,160 @@ function enviarMensajeAlServidor(texto, multimediaUrl = null) {
         console.error('Error enviarMensajeAlServidor:', error);
         alert('Error de conexión al enviar el mensaje.');
     });
+}*/
+
+// --- INICIALIZACIÓN DE LISTENERS Y FUNCIONES (EXISTENTES) ---
+function inicializarListenersFormularioMensajes() {
+    const formEnviarMensaje = document.getElementById('formEnviarMensaje');
+    const inputMensajeTexto = document.getElementById('inputMensajeTexto');
+    const btnAdjuntarMedia = document.getElementById('btnAdjuntarMedia');
+    const inputMediaFile = document.getElementById('inputMediaFile');
+    const btnEnviarUbicacion = document.getElementById('btnEnviarUbicacion');
+
+    if (btnAdjuntarMedia && inputMediaFile) {
+        btnAdjuntarMedia.addEventListener('click', () => inputMediaFile.click());
+        inputMediaFile.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && chatActivoId) {
+                subirArchivoACloudinary(file);
+            }
+            inputMediaFile.value = null; // Resetear para permitir seleccionar el mismo archivo de nuevo
+        });
+    }
+
+    if(btnEnviarUbicacion) {
+        btnEnviarUbicacion.addEventListener('click', () => {
+            if (!chatActivoId) { alert("Selecciona un chat para enviar tu ubicación."); return; }
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    // Usar una URL que no dependa de cookies de terceros para mostrar en iframes o imágenes si es posible
+                    // o simplemente enviar las coordenadas y que el receptor las abra en Google Maps.
+                    // Por ahora, enviaremos una URL simple.
+                    const googleMapsUrl = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+                    enviarMensajeAlServidor(null, googleMapsUrl, 'location');
+                }, error => {
+                    console.error("Error obteniendo ubicación: ", error);
+                    alert("No se pudo obtener tu ubicación. Asegúrate de tener los permisos activados y conexión a internet.");
+                });
+            } else {
+                alert("La geolocalización no es soportada por este navegador.");
+            }
+        });
+    }
+
+    if (formEnviarMensaje && inputMensajeTexto) {
+        formEnviarMensaje.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const texto = inputMensajeTexto.value.trim();
+            if (!chatActivoId) { alert("Selecciona un chat para enviar mensajes."); return; }
+            if (texto) { // Solo enviar si hay texto, los adjuntos se envían por su propio flujo
+                enviarMensajeAlServidor(texto, null);
+            }
+        });
+    }
 }
+
+// --- FUNCIONES DE SUBIDA CON CLOUDINARY (EXISTENTES) ---
+function subirArchivoACloudinary(file) {
+    if (!file || !chatActivoId) return;
+
+    // Mensaje temporal de "Subiendo..."
+    const tempMessageId = `temp_${Date.now()}`;
+    mostrarMensajeEnUI({
+        idMensaje: tempMessageId, // ID temporal
+        idRemitente: idUsuarioActualGlobal,
+        texto: `Subiendo ${file.name}...`,
+        remitenteUsuario: nombreUsuarioActualGlobal, // 'Yo' o tu nombre de usuario
+        remitenteAvatar: avatarUsuarioActualGlobal,
+        fechaEnvio: new Date().toISOString().slice(0, 19).replace('T', ' '), // Hora actual
+        esTemporal: true // Flag para posible manejo especial (ej. no re-renderizar si ya existe)
+    });
+
+    const cloudName = 'ddrffjanq'; 
+    const uploadPreset = 'poi_unsigned'; 
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+    formData.append('folder', 'poi'); // Opcional: carpeta en Cloudinary
+
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.secure_url) {
+            const downloadURL = data.secure_url;
+            // El texto del input se puede enviar junto o como un mensaje separado.
+            // Aquí asumimos que el archivo es el mensaje principal.
+            // const textoOriginal = document.getElementById('inputMensajeTexto').value.trim(); 
+            let tipoParaPlaceholder = file.type || '';
+            if(!tipoParaPlaceholder && file.name) { // Intentar deducir de la extensión si el tipo no está
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) tipoParaPlaceholder = 'image/';
+                else if (['mp4', 'webm', 'ogg', 'mov'].includes(ext)) tipoParaPlaceholder = 'video/';
+                else if (['mp3', 'wav', 'aac'].includes(ext)) tipoParaPlaceholder = 'audio/';
+            }
+
+            enviarMensajeAlServidor(null, downloadURL, tipoParaPlaceholder); // Enviar URL al backend
+            // document.getElementById('inputMensajeTexto').value = ''; // Limpiar input si se envió texto asociado
+        } else {
+            throw new Error(data.error ? data.error.message : "Error desconocido de Cloudinary");
+        }
+        // Eliminar el mensaje temporal "Subiendo..."
+        const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
+    })
+    .catch(error => {
+        console.error("Error al subir a Cloudinary:", error);
+        alert("No se pudo subir el archivo: " + error.message);
+        const el = document.querySelector(`[data-message-id='${tempMessageId}']`); if (el) el.remove();
+    });
+}
+
+function enviarMensajeAlServidor(texto, multimediaUrl = null, tipoMultimedia = null) {
+    if (!chatActivoId) { alert("Selecciona un chat."); return; }
+    if ((texto === null || texto.trim() === '') && !multimediaUrl) return; // No enviar mensajes vacíos
+
+    let textoParaEnviar = texto; // El texto que el usuario escribió
+    
+    // Si no hay texto explícito pero sí multimedia, generar un placeholder
+    if ((texto === null || texto.trim() === '') && multimediaUrl) {
+        if (tipoMultimedia && tipoMultimedia.startsWith('image/')) textoParaEnviar = '[Imagen]';
+        else if (tipoMultimedia && tipoMultimedia.startsWith('video/')) textoParaEnviar = '[Video]';
+        else if (tipoMultimedia && tipoMultimedia.startsWith('audio/')) textoParaEnviar = '[Audio]';
+        else if (tipoMultimedia === 'location') textoParaEnviar = '[Ubicación]';
+        else textoParaEnviar = '[Archivo Adjunto]';
+    }
+
+    const datosMensaje = {
+        idChat: chatActivoId,
+        textoMensaje: textoParaEnviar,
+        multimediaUrl: multimediaUrl 
+    };
+
+    fetch('../controllers/enviarMensajeController.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datosMensaje)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success' && data.mensaje) {
+            mostrarMensajeEnUI(data.mensaje); // Mostrar el mensaje confirmado por el servidor
+            if (texto !== null && texto.trim() !== '' && textoParaEnviar === texto) { // Si se envió texto del input
+                document.getElementById('inputMensajeTexto').value = ''; // Limpiar el input
+            }
+        } else {
+            alert(data.message || "Error al enviar mensaje.");
+        }
+    })
+    .catch(error => {
+        console.error('Error enviarMensajeAlServidor:', error);
+        alert('Error de conexión al enviar el mensaje.');
+    });
+}
+
 
 function inicializarListenersPopUps() {
     const popUpConfigs = [
