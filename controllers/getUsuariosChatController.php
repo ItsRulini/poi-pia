@@ -1,5 +1,5 @@
 <?php
-// getUsuariosChatController.php
+// getUsuariosChatController.php - CORREGIDO
 // Controlador para obtener usuarios de un chat específico
 header('Content-Type: application/json');
 
@@ -8,10 +8,8 @@ require_once '../models/Usuario.php'; // Para instanceof y el objeto de sesión
 require_once '../dao/UsuarioDAO.php';
 session_start();
 
-
-
 // Verificar si el usuario está autenticado
-if (!isset($_SESSION['usuario'])) {
+if (!isset($_SESSION['usuario']) || !($_SESSION['usuario'] instanceof Usuario)) {
     echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
     exit();
 }
@@ -23,7 +21,7 @@ if (!isset($_GET['idChat'])) {
 }
 
 $idChat = intval($_GET['idChat']);
-$idUsuarioActual = $_SESSION['usuario'];
+$idUsuarioActual = $_SESSION['usuario']->idUsuario; // ← CORRECCIÓN: Obtener el ID del usuario, no el objeto
 
 try {
     // Verificar que el usuario actual pertenece al chat
@@ -65,7 +63,7 @@ try {
         $usuarios[] = [
             'idUsuario' => $row['idUsuario'],
             'usuario' => $row['usuario'],
-            'nombreCompleto' => trim($row['nombres'] . ' ' . $row['paterno'] . ' ' . $row['materno']),
+            'nombreCompleto' => trim($row['nombres'] . ' ' . $row['paterno'] . ' ' . ($row['materno'] ?: '')),
             'avatar' => $row['avatar'],
             'esUsuarioActual' => $row['esUsuarioActual'] == 1
         ];

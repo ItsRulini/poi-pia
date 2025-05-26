@@ -8,14 +8,13 @@
 }
 body{
     background-color: rgb(255, 247, 237);
-    /*background-image: url('fondo2.png'); /*fondo a usar para la página*/
     background: linear-gradient(rgb(255, 247, 237), rgb(255, 232, 216));
 
-    background-size: cover;  /*cubre todo*/
+    background-size: cover;
     background-position: center; 
     background-repeat: no-repeat; 
 
-    height: 100vh; /* ocupa todo el tamaño de la pagina */
+    height: 100vh;
 }
 li, a, button{
     font-family: 'Be Vietnam Pro', sans-serif;
@@ -23,7 +22,6 @@ li, a, button{
     font-size: 16px;
     color: black;
     text-decoration: none;
-
 }
 header{
     display: flex;
@@ -46,7 +44,7 @@ header{
     padding: 0px 20px;
 }
 .navlinks li a{
-    background-color: rgb(87, 71, 60);;
+    background-color: rgb(87, 71, 60);
     color: rgb(255, 247, 237);
     display: block;
     margin: 0px 2px;
@@ -56,32 +54,30 @@ header{
 }
 .navlinks li a:hover{
     background-color: rgb(255, 247, 237);
-    color: rgb(87, 71, 60);;
+    color: rgb(87, 71, 60);
 }
 .btn-profile{
     width: 300px;
     padding: 12px 25px;
-    background-color: rgb(87, 71, 60);;
+    background-color: rgb(87, 71, 60);
     border: none;
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
     color: rgb(255, 247, 237);
-
 }
 .btn-profile:hover{
     background-color: rgb(255, 247, 237);
-    color: rgb(87, 71, 60);;
+    color: rgb(87, 71, 60);
 }
 /*      VENTANAS DE CHAT        */
 .container-interface{
     display: flex;
-    justify-content: center; /* centra horizontalmente los elementos */
-    align-items: center; /* centra verticalmente los elementos */
+    justify-content: center;
+    align-items: center;
     width: 100vw; 
     height: 80vh;
-    background-color: transparent; /*aqua*/
-
+    background-color: transparent;
 }
 .container-interface .sidebar,
 .container-interface .chat-container{
@@ -97,51 +93,47 @@ header{
 }
 
 .container-interface .sidebar{
-    background-color: transparent; /*amarillo*/
+    background-color: transparent;
     width: 295px;
     margin-left: 50px;
     margin-right: 50px;
-
 }
 .container-interface .chat-container{
-    background-color: transparent; /*rojo*/
+    background-color: transparent;
     width: 850px;
     margin-right: 50px;
-
 }
 .container-interface .additional-container{
-    background-color: transparent; /*azul*/
+    background-color: transparent;
     width: 350px;
     margin-right: 50px;
     
     display: flex;
     flex-direction: column;
     gap: 10px;
-    
-    /*padding: 5px;*/
 }
 
-/*containers de auxilio :'0*/
+/*containers de auxilio */
 .sidebar .user-container,
 .sidebar .separador-container,
 .sidebar .elements-container,
 .chats-display .chats-active{
-    display: flex; /* Para centrar su contenido e */
+    display: flex;
     justify-content: center; 
     align-items: center;
-    background-color: transparent; /*amarillo*/
+    background-color: transparent;
 }
 .sidebar .user-container {
     height: 40%;
     width: 100%;
 }
 .user-container .user-photo {
-    display: flex; /* Para centrar su contenido */
+    display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center;
     
-    background-color: transparent; /*naranja*/
+    background-color: transparent;
     border-radius: 30px;
     
     height: 100%;
@@ -156,7 +148,7 @@ header{
 .user-photo p{
     font-size: 25px;
     font-weight: bold;
-    color: rgb(97, 77, 63);;
+    color: rgb(97, 77, 63);
 }
 /*separadores containers*/
 .sidebar .separador-container,
@@ -168,11 +160,10 @@ header{
     height: 100%;
     width: 85%;
     background-color: transparent;
-    color: rgb(97, 77, 63);;
-    display: flex;  /* Alinear elementos en fila */
+    color: rgb(97, 77, 63);
+    display: flex;
     align-items: center;
-    justify-content: space-between; /* Separa los extremos */
-    
+    justify-content: space-between;
 }
 .elements-aux .icons-group {
     justify-content: center; 
@@ -193,29 +184,28 @@ header{
 }
 
 .elements-aux p {
-    text-align: right; /* Asegura que el texto esté alineado a la derecha */
+    text-align: right;
 }
 
 .separador-container .h{
     border: none;
-    background-color: rgb(97, 77, 63);;
+    background-color: rgb(97, 77, 63);
     height: 3px;
     width: 85%;
 }
 /*container de todas las conversaciones*/
 .sidebar .chats-display{
-    background-color: transparent; /*rojo*/
-    overflow-y: auto; /*para que podamos hacer scroll con los chats*/
+    background-color: transparent;
+    overflow-y: auto;
     height: 50%;
     width: 100%;
     gap: 10px;
 }
 
 .chats-display .chats-active{
-    background-color: transparent; /*transparente*/
+    background-color: transparent;
     height: 20%;
     width: 100%;
-    
 }
 .chats-active:hover{
     background-color: rgb(255, 255, 255);
@@ -224,9 +214,9 @@ header{
     cursor: pointer; 
 }
 .chats-active .user-display-photo{
-    background-color: transparent; /*brown*/
+    background-color: transparent;
     display: flex;
-    justify-content: center; /* centra horizontalmente los elementos */
+    justify-content: center;
     align-items: center;
 
     height: 100%;
@@ -242,7 +232,7 @@ header{
     flex-direction: column;
     justify-content: center; 
 
-    background-color: transparent; /*aquamarine*/
+    background-color: transparent;
     
     height: 100%;
     width: 75%;
@@ -251,7 +241,7 @@ header{
 }
 .user-convo .username{
     font-weight: bold;
-    color: rgb(97, 77, 63);;
+    color: rgb(97, 77, 63);
 }
 .user-convo .conversation{
     font-size: small;
@@ -259,21 +249,21 @@ header{
 }
 /*color del scrollbar del primer container*/
 .chats-display{
-    scrollbar-color: #e4d0c3 #ffffff; /* Color del thumb y track */
-    scrollbar-width: thin; /* Grosor del scrollbar */
-    
+    scrollbar-color: #e4d0c3 #ffffff;
+    scrollbar-width: thin;
 }
-/*      ///////////////////////////     */
+
+/*      CHAT DISPLAY     */
 .chat-container .chat-display-top,
 .chat-container .separador-aux,
 .chat-container .bar-chat,
 .bar-chat .write-bar{
-    display: flex; /* Para centrar su contenido e */
+    display: flex;
     align-items: center;
     justify-content: center;
     
-    background-color: transparent; /*pink*/
-    color: rgb(97, 77, 63);;
+    background-color: transparent;
+    color: rgb(97, 77, 63);
 }
 .chat-container .chat-display-top {
     height: 12%;
@@ -283,20 +273,33 @@ header{
 .chat-display-top .display-icons-group{
     align-items: center;
     display: flex;
-
     height: 100%;
 }
 .chat-display-top .display-top-aux{
     padding-left: 5%;
     width: 80%;
-    background-color: transparent; /*verde*/
-
+    background-color: transparent;
     font-weight: bold;
     font-size: 25px;
+    
+    /* Permitir contenido en múltiples líneas para descripción */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
+
+/* Estilo para la descripción del chat privado */
+.chat-display-top .display-top-aux .chat-description {
+    font-size: 14px !important;
+    color: rgba(97, 77, 63, 0.7) !important;
+    font-weight: normal !important;
+    margin-top: 2px;
+    font-style: italic;
+}
+
 .chat-display-top .display-icons-group{
     width: 20%;
-    background-color: transparent; /*verde*/
+    background-color: transparent;
     padding-right: 5%;
     gap: 20px;
 }
@@ -306,7 +309,7 @@ header{
 }
 .display-icons-group i:hover{
     color: rgb(255, 247, 237);
-    background-color: rgb(97, 77, 63);;
+    background-color: rgb(97, 77, 63);
     transition:  all 0.3s ease 0s;
     cursor: pointer; 
 }   
@@ -317,7 +320,7 @@ header{
 }
 .separador-aux .h-display{
     border: none;
-    background-color: rgb(97, 77, 63);;
+    background-color: rgb(97, 77, 63);
     height: 100%;
     width: 90%;
 }
@@ -326,7 +329,7 @@ header{
     overflow-y: auto;
     flex-direction: column;
 
-    background-color: transparent; /*verde*/
+    background-color: transparent;
     width: 100%;
     height: 75%;
     padding: 15px;
@@ -335,14 +338,14 @@ header{
     align-items: center;
 }
 .chat-container .bar-chat{
-    background-color: transparent; /*verde claro*/
+    background-color: transparent;
     width: 100%;
     height: 13.25%;
 }
 .bar-chat .write-bar{
     height: 60%;
     width: 95%;
-    background-color: white; /*beige*/
+    background-color: white;
 
     padding-right: 10px;
     border-radius: 12px;
@@ -357,8 +360,8 @@ header{
 
     padding-left: 10px;
     padding-right: 10px;
-    background-color: transparent;   /*rosa*/
-    color: rgb(97, 77, 63);;
+    background-color: transparent;
+    color: rgb(97, 77, 63);
 }
 .write-bar input::placeholder{
     color: rgba(97, 77, 63, 0.589);
@@ -369,7 +372,7 @@ header{
     height: 75%;
     width: 6%;
     border: none;
-    background-color: rgb(87, 71, 60);;
+    background-color: rgb(87, 71, 60);
     color: rgb(255, 247, 237);
     border-radius: 10px;
 }
@@ -378,56 +381,113 @@ header{
 .btn-post-media:hover{
     transition:  all 0.3s ease 0s;
     background-color: rgb(255, 247, 237);
-    color: rgb(87, 71, 60);;
+    color: rgb(87, 71, 60);
     cursor: pointer; 
 }
-.window-chat .window-bubble{
-    background-color: transparent; /*rojo*/
-    width: 100%;
-    height: 18%;
 
+/* ESTILOS MEJORADOS PARA BURBUJAS DE MENSAJES */
+.window-chat {
     display: flex;
-    align-items: center;
-    gap: 7px;
-}
-.window-bubble .BubblePic,
-.window-bubble-dos .BubblePicDos{
-    width: 10%;
-    height: 85%;
-    border-radius: 100%;
-}
-.window-bubble textarea,
-.window-bubble-dos textarea{
-    height: 85%;
-    width: 40%;
-    padding: 10px;
-    border-radius: 15px;
-
-    outline: none;
-    border: none;
-    color: rgb(87, 71, 60);;;
-}
-.window-bubble textarea::placeholder,
-.window-bubble-dos textarea::placeholder{
-   color: rgba(97, 77, 63, 0.589);
-}
-.window-chat .window-bubble-dos{
-    background-color: transparent; /*azul*/
-    width: 100%;
-    height: 18%;
-
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
 }
-/*barra de notificaciones*/
+
+.window-bubble, .window-bubble-dos {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    max-width: 70%;
+}
+
+.window-bubble {
+    align-self: flex-start;
+}
+
+.window-bubble-dos {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.BubblePic, .BubblePicDos {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 80px;
+}
+
+.window-bubble .message-content {
+    align-items: flex-start;
+}
+
+.window-bubble-dos .message-content {
+    align-items: flex-end;
+}
+
+.message-text-container {
+    padding: 8px 12px;
+    border-radius: 15px;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+.window-bubble .message-text-container {
+    background-color: #e9d4c3;
+    border-top-left-radius: 4px;
+}
+
+.window-bubble-dos .message-text-container {
+    background-color: #d1e7dd;
+    border-top-right-radius: 4px;
+}
+
+.message-text {
+    margin: 0;
+    color: rgb(87, 71, 60);
+    white-space: pre-wrap;
+}
+
+.message-sender {
+    font-size: 0.75em;
+    color: #6c757d;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+.window-bubble .message-sender {
+    margin-left: 10px;
+}
+.window-bubble-dos .message-sender {
+    margin-right: 10px;
+}
+
+.message-timestamp {
+    font-size: 0.7em;
+    color: #888;
+    margin-top: 3px;
+}
+.window-bubble .message-timestamp {
+    align-self: flex-start;
+    margin-left: 10px;
+}
+.window-bubble-dos .message-timestamp {
+    align-self: flex-end;
+    margin-right: 10px;
+}
+
+/*barra de notificaciones y tareas*/
 .additional-container .additional-container-n,
 .additional-container .additional-container-p
 {
     height: 50%;
     width: 100%;
-    background-color: transparent; /*aqua*/
-    color: rgb(87, 71, 60);;
+    background-color: transparent;
+    color: rgb(87, 71, 60);
     padding: 15px;
     border-radius: 30px;
 
@@ -437,7 +497,6 @@ header{
     display: flex;
     align-items: center;
     flex-direction: column;
-
 }
 .task-progress p{
     color: white;
@@ -456,12 +515,12 @@ header{
 .separador-h2 .h-h2{
     height: 3px;
     width: 100%;
-    background-color: rgb(87, 71, 60);;
+    background-color: rgb(87, 71, 60);
     border: none;
 }
 .additional-container-n .notificacion-container{
     overflow-y: auto;
-    background-color: transparent; /*rosa*/
+    background-color: transparent;
     height: 100%;
     width: 100%;
 }
@@ -469,7 +528,7 @@ header{
     height: 20%;
     width: 100%;
 
-    background-color: rgb(187, 226, 97);;
+    background-color: rgb(187, 226, 97);
     color: rgb(255, 255, 255);
 
     margin-bottom: 5px;
@@ -480,38 +539,67 @@ header{
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 /*hover*/
 .notificacion-bubble:hover{
     background-color: rgb(255, 247, 237);
-    color: rgb(87, 71, 60);;
+    color: rgb(87, 71, 60);
     transition:  all 0.3s ease 0s;
     cursor: pointer;
 }
-/*progreso de las tareas*/
+
+/*progreso de las tareas - ESTILOS MEJORADOS*/
 .additional-container-p .task-container{
     overflow-y: auto;
-    background-color: transparent; /*violeta*/
+    background-color: transparent;
     height: 100%;
     width: 100%;
 }
 .task-container .task-progress{
-    height: 20%;
     width: 100%;
     background-color: #E9D4C3;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     border-radius: 10px;
-    padding: 10px;
+    padding: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
     cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 60px;
 }
+
+.task-container .task-progress:hover {
+    background-color: #d4c4b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Estilos específicos para diferentes tipos de tareas */
+.task-progress.admin-task {
+    border-left: 4px solid #4caf50;
+    background-color: #f8f9fa;
+}
+
+.task-progress.user-task-pendiente {
+    border-left: 4px solid #ffc107;
+    background-color: #fff3cd;
+}
+
+.task-progress.user-task-completada {
+    border-left: 4px solid #28a745;
+    background-color: #d4edda;
+}
+
+.task-progress p {
+    color: rgb(87, 71, 60) !important;
+    margin: 2px 0;
+    text-align: center;
+}
+
 /*POP UP fondo*/
-.PopUp{
+.PopUp, .PopUpReward, .PopUpChat, .PopUpDelete, .PopUpCall{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -525,14 +613,12 @@ header{
 /* Contenido del Pop up para crear las tareas */
 .modal-content{
     width: 400px;
-    height: 450px;
+    height: 500px; /* Aumentado para acomodar las opciones de recompensa */
     background-color: rgb(255, 247, 237);
     border-radius: 30px;
     position: relative;
     padding: 15px;
 
-    /*display flex es para centrar todo al centro*/
-    
     display: flex;
     flex-direction: column;
 
@@ -540,14 +626,13 @@ header{
     backdrop-filter: blur(20px);
 }
 .modal-content .close{
-    background-color: transparent; /* red */
+    background-color: transparent;
     color: rgb(228, 190, 165);
-    height: 10%;
+    height: 8%; /* Ajustado proporcionalmente */
     width: 10%;
     border-radius: 10px;
     border: none;
     outline: none;
-
     font-size: 20px;
 }
 .close:hover{
@@ -560,7 +645,7 @@ header{
 .modal-content .task-info{
     height: 100%;
     width: 100%;
-    background-color: transparent; /*rosa*/
+    background-color: transparent;
 
     justify-content: center;
     align-items: center;
@@ -568,17 +653,17 @@ header{
     display: flex;
     flex-direction: column;
     gap: 10px;
-
 }
 .task-info textarea{
     width: 100%;
-    height: 20%;
+    height: 15%; /* Ajustado */
 
     outline: none;
     border: none;
     color: rgb(228, 190, 165);
     border-radius: 10px;
     padding: 10px;
+    resize: vertical;
 }
 .task-info textarea::placeholder{
     color: rgb(228, 190, 165);
@@ -596,21 +681,22 @@ header{
     background-color: rgb(228, 190, 165);
     color: rgb(255, 247, 237);
     width: 100%;
-    height: 12%;
+    height: 10%; /* Ajustado */
     border-radius: 30px;
     border: none;
     outline: none;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 .task-btn:hover{
     background-color: rgb(255, 247, 237);
     color: rgb(228, 190, 165);
     transition: 0.3s ease;
-    cursor: pointer;
 }
 .task-info .separador-h4{
-    height: 5%;
+    height: 3%; /* Ajustado */
     width: 100%;
-    background-color: transparent; /*rojo*/
+    background-color: transparent;
 
     justify-content: center;
     align-items: center;
@@ -624,41 +710,56 @@ header{
 }
 .task-info .task-check{
     width: 100%;
-    height: 25%;
+    height: 40%; /* Aumentado para las opciones de recompensa */
     background-color: white;
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px;
+    overflow-y: auto;
 }
 .task-check h3{
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 400;
+    margin-bottom: 10px;
+}
+
+/* Estilos para las opciones de recompensa */
+.reward-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reward-options label {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 14px;
+    color: rgb(87, 71, 60);
+}
+
+.reward-options label:hover {
+    background-color: rgba(228, 190, 165, 0.2);
+}
+
+.reward-options input[type="radio"] {
+    margin-right: 10px;
+    accent-color: rgb(228, 190, 165);
 }
 
 /*POP UP reclama recompensa*/
-.PopUpReward{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    display: none;
-}
-/* Contenido del Pop up para crear las tareas */
 .modal-reward{
-    width: 250px;
-    height: 250px;
+    width: 320px;
+    height: 400px;
     background-color: rgb(255, 247, 237);
     border-radius: 30px;
     position: relative;
     padding: 15px;
 
-    /*display flex es para centrar todo al centro*/
-    
     display: flex;
     flex-direction: column;
 
@@ -666,14 +767,13 @@ header{
     backdrop-filter: blur(20px);
 }
 .modal-reward .close-reward{
-    background-color: transparent; /* red */
+    background-color: transparent;
     color: rgb(228, 190, 165);
-    height: 19%;
+    height: 12%;
     width: 16%;
     border-radius: 10px;
     border: none;
     outline: none;
-
     font-size: 20px;
 }
 .close-reward:hover{
@@ -686,7 +786,7 @@ header{
 .modal-reward .task-reward{
     height: 100%;
     width: 100%;
-    background-color: transparent; /*amarillo*/
+    background-color: transparent;
 
     justify-content: center;
     align-items: center;
@@ -694,12 +794,11 @@ header{
     display: flex;
     flex-direction: column;
     gap: 10px;
-
 }
 .task-reward .separador-reward{
     height: 5%;
     width: 100%;
-    background-color: transparent; /*rojo*/
+    background-color: transparent;
 
     justify-content: center;
     align-items: center;
@@ -714,34 +813,40 @@ header{
 .task-reward h3, 
 .task-reward p{
     color: rgb(228, 190, 165);
+    text-align: center;
 }
 .task-reward .task-reward-btn{
     width: 100%;
-    height: 20%;
+    height: 15%;
     border:none;
     outline: none;
     background-color: rgb(228, 190, 165);
     color:rgb(255, 247, 237);
     border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 .task-reward-btn:hover{
     background-color: rgb(255, 247, 237);
     color:rgb(228, 190, 165);
 }
-/*POP UP crear chat*/
-.PopUpChat{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    display: none;
+.task-reward-btn:disabled {
+    background-color: rgba(228, 190, 165, 0.5);
+    cursor: not-allowed;
 }
-/* Contenido del Pop up para crear los chats */
-.modal-chat{
+
+/* Contenedor de recompensas disponibles */
+#recompensasDisponibles {
+    width: 100%;
+    height: 60%;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/*POP UP crear chat*/
+.PopUpChat .modal-chat{
     width: 320px;
     height: 450px;
     background-color: rgb(255, 247, 237);
@@ -749,7 +854,6 @@ header{
     position: relative;
     padding: 15px;
 
-    /*display flex es para centrar todo al centro*/
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -766,7 +870,7 @@ header{
     
     border: none;
     outline: none;
-    background-color: transparent; /*red*/
+    background-color: transparent;
 
     display: flex;
     align-items: center;
@@ -776,7 +880,7 @@ header{
     width: 12%;
     height: 100%;
 
-    background-color: rgb(139, 98, 71);;
+    background-color: rgb(139, 98, 71);
     color: rgb(255, 247, 237);
 
     border: none;
@@ -788,11 +892,11 @@ header{
 }
 .close-newchat button:hover{
     background-color: rgb(255, 247, 237);
-    color: rgb(139, 98, 71);;
+    color: rgb(139, 98, 71);
     transition: 0.3s ease;
 }
 .modal-chat .chat-to{
-    background-color: transparent; /*green*/
+    background-color: transparent;
     width: 100%;
     min-height: 10%;
 
@@ -800,9 +904,9 @@ header{
     align-items: center;
     gap: 10px;
 
-    overflow-x: hidden; /* Permitir desplazamiento horizontal */
-    flex-wrap: nowrap; /* Evita que los elementos pasen a una nueva línea */
-    white-space: nowrap; /* Evita que el contenido se divida */
+    overflow-x: hidden;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 .chat-to button{
     min-width: 52%;
@@ -829,7 +933,7 @@ header{
 .modal-chat .separador-chat{
     min-height: 5%;
     width: 100%;
-    background-color: transparent; /*rojo*/
+    background-color: transparent;
 
     justify-content: center;
     align-items: center;
@@ -844,8 +948,7 @@ header{
 .modal-chat .c-chat{
     min-height: 68%;
     width: 100%;
-    background-color: transparent; /*coral*/
-
+    background-color: transparent;
     overflow-y: auto;
 }
 .c-chat .new-convo{
@@ -879,139 +982,25 @@ header{
     border: none;
     outline: none;
 
-    background-color: rgb(139, 98, 71);;
+    background-color: rgb(139, 98, 71);
     color: rgb(255, 247, 237);
     cursor: pointer;
     transition: 0.3s ease;
 }
 .start-btn:hover{
-    color: rgb(139, 98, 71);;
+    color: rgb(139, 98, 71);
     background-color: rgb(255, 247, 237);
     transition: 0.3s ease;
 }
-/*POP UP para borrar chat*/
-.PopUpDelete{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    display: none;
-}
-/* Contenido del Pop up para borrar los chats */
-.modal-delete{
-    width: 320px;
-    height: 450px;
-    background-color: rgb(255, 247, 237);
-    border-radius: 30px;
-    position: relative;
-    padding: 15px;
 
-    /*display flex es para centrar todo al centro*/
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-
-    box-shadow: 2px 9px 49px -5px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(20px);
-}
-.modal-delete p{
-    color: rgb(228, 190, 165);
-}
-.modal-delete .close-deletechat{
-    width: 100%;
-    height: 9%;
-    
-    border: none;
-    outline: none;
-    background-color: transparent; /*red*/
-
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-.close-deletechat button{
-    width: 12%;
-    height: 100%;
-
-    background-color: rgb(139, 98, 71);;
-    color: rgb(255, 247, 237);
-
-    border: none;
-    outline: none;
-
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-.close-deletechat button:hover{
-    background-color: rgb(255, 247, 237);
-    color: rgb(139, 98, 71);;
-    transition: 0.3s ease;
-}
-.modal-delete .separador-delete{
-    height: 5%;
-    width: 100%;
-    background-color: transparent; /*rojo*/
-
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-.separador-delete .h-delete{
-    border: none;
-    background-color: rgb(228, 190, 165);
-    height: 2px;
-    width: 100%;
-}
-.modal-delete .c-delete{
-    height: 76%;
-    width: 100%;
-    background-color: transparent; /*coral*/
-
-    overflow-y: auto;
-}
-.c-delete .new-delete{
-    width: 100%;
-    height: 15%;
-    background-color: transparent;
-
-    border-radius: 5px;
-
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-.new-delete:hover{
-    background-color: white;
-    transition: 0.3s ease;
-}
-.new-delete img{
-    border-radius: 100%;
-    height: 100%;
-    min-width: 18%;
+/* Estilos para usuarios seleccionados en crear chat */
+.new-convo.selected-for-chat {
+    background-color: #e4d0c3 !important;
+    border: 1px solid #8b6247;
 }
 
-/*  //   LLAMADA   //      */
-.PopUpCall{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    display: none;
-}
-.modal-call{
+/* Estilos para videollamadas (mantenidos como estaban) */
+.PopUpCall .modal-call{
     width: 1050px;
     height: 750px;
     background: linear-gradient(rgb(255, 255, 255), rgb(255, 232, 216));
@@ -1019,7 +1008,6 @@ header{
     position: relative;
     padding: 10px;
 
-    /*display flex es para centrar todo al centro*/
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -1066,26 +1054,25 @@ header{
 .modal-call .c-call {
     height: 85%;
     width: 100%;
-    background-color: transparent; /* azul */
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box; /* Incluir bordes y padding en el tamaño total */
+    box-sizing: border-box;
 }
 
 .c-call .sep-call {
-    background-color: transparent; /* fucsia */
+    background-color: transparent;
     width: 97%;  
     height: 97%; 
 
     display: grid;
-    grid-template-columns: calc(50% - 2.5px) calc(50% - 2.5px);  /*restar el gap de 5px*/
+    grid-template-columns: calc(50% - 2.5px) calc(50% - 2.5px);
     grid-template-rows: calc(50% - 2.5px) calc(50% - 2.5px); 
     
     gap: 5px;
     border-radius: 10px;
-    /*border: 2px solid rgb(139, 98, 71);*/
-    box-sizing: border-box; /**no desborde*/
+    box-sizing: border-box;
 }
 
 .sep-call .new-call {
@@ -1095,13 +1082,12 @@ header{
     justify-content: center;
     padding: 3px;
     border-radius: 10px;
-    border: 2px solid rgb(139, 98, 71);;
+    border: 2px solid rgb(139, 98, 71);
 
-    width: 100%;  /* Toma el 100% del espacio disponible de la celda */
-    height: 100%; /* Toma el 100% del espacio disponible de la celda */
-    box-sizing: border-box; /* Incluir borde y padding dentro del tamaño */
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
-
 
 .new-call img{
     border-radius: 100%;
@@ -1135,361 +1121,216 @@ header{
 .call-buttons .mute-call,
 .call-buttons .add-call{
     background-color: white;
-    color: rgb(87, 71, 60);;;
+    color: rgb(87, 71, 60);
     transition: 0.3s ease;
 }
 
 .call-buttons .end-call{
-    background-color: rgb(236, 97, 97);;
+    background-color: rgb(236, 97, 97);
     color: rgb(255, 247, 237);
 }
 .call-buttons .end-call:hover{
-    color: rgb(236, 97, 97);;
+    color: rgb(236, 97, 97);
     background-color: rgb(255, 247, 237);
 }
 .call-buttons .mute-call:hover,
 .call-buttons .add-call:hover{
     color: white;
-    background-color: rgb(87, 71, 60);;;
+    background-color: rgb(87, 71, 60);
     transition: 0.3s ease;
 }
 
-/* En MAIN.css */
-.new-convo.selected-for-chat {
-    background-color: #e4d0c3 !important; /* Un color que indique selección, ajusta según tu paleta */
-    border: 1px solid #8b6247;
-}
-
-/* MAIN.css - Añadir al final */
-
-.window-chat {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espacio entre burbujas */
-}
-
-.window-bubble, .window-bubble-dos {
-    display: flex;
-    align-items: flex-end; /* Alinea la imagen con la parte inferior del contenido del mensaje */
-    gap: 10px;
-    max-width: 70%; /* Las burbujas no ocupan todo el ancho */
-}
-
-.window-bubble { /* Mensajes recibidos */
-    align-self: flex-start;
-}
-
-.window-bubble-dos { /* Mensajes enviados */
-    align-self: flex-end;
-    flex-direction: row-reverse; /* Imagen a la derecha */
-}
-
-.BubblePic, .BubblePicDos {
-    width: 40px; /* Tamaño fijo para avatares en chat */
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover; /* Asegura que la imagen cubra sin deformarse */
-    flex-shrink: 0; /* Evita que la imagen se encoja */
-}
-
-.message-content {
-    display: flex;
-    flex-direction: column;
-    min-width: 80px; /* Ancho mínimo para que se vea bien el timestamp */
-}
-
-.window-bubble .message-content {
-    align-items: flex-start;
-}
-
-.window-bubble-dos .message-content {
-    align-items: flex-end;
-}
-
-.message-text-container {
-    padding: 8px 12px;
-    border-radius: 15px;
-    word-wrap: break-word; /* Para que el texto largo se divida */
-    max-width: 100%; /* Para que no exceda el contenedor de burbuja */
-}
-
-.window-bubble .message-text-container { /* Recibidos */
-    background-color: #e9d4c3; /* Color de fondo para mensajes recibidos */
-    border-top-left-radius: 0; /* Estilo de burbuja */
-}
-
-.window-bubble-dos .message-text-container { /* Enviados */
-    background-color: #d1e7dd; /* Un color diferente para mensajes enviados (ej. verde claro) */
-    border-top-right-radius: 0; /* Estilo de burbuja */
-}
-
-.message-text {
-    margin: 0;
-    color: rgb(87, 71, 60);
-    white-space: pre-wrap; /* Conserva espacios y saltos de línea */
-}
-
-.message-sender {
-    font-size: 0.75em;
-    color: #6c757d; /* Color más tenue para el remitente */
-    margin-bottom: 2px;
-    font-weight: bold;
-}
-.window-bubble .message-sender {
-    margin-left: 10px; /* Pequeño margen para el nombre del remitente */
-}
-.window-bubble-dos .message-sender {
-    margin-right: 10px;
-}
-
-
-.message-timestamp {
-    font-size: 0.7em;
-    color: #888; /* Color aún más tenue para el timestamp */
-    margin-top: 3px;
-}
-.window-bubble .message-timestamp {
-    align-self: flex-start;
-    margin-left: 10px;
-}
-.window-bubble-dos .message-timestamp {
-    align-self: flex-end;
-    margin-right: 10px;
-}
-
-/* Estilos adicionales para videollamadas - Agregar a MAIN.css */
-
-/* Mejorar el modal de videollamada */
-.modal-call {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-/* Contenedor de videos mejorado */
-.c-call {
-    background-color: #000;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.sep-call {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    gap: 8px;
-    padding: 8px;
-    background-color: #1a1a1a;
-    transition: all 0.3s ease;
-}
-
-/* Contenedor individual de video */
-.new-call {
-    position: relative;
-    background-color: #2d2d2d;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 150px;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.new-call:hover {
-    border-color: #4a9eff;
-}
-
-/* Estilos para el video */
-.new-call video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-/* Cuando no hay video (avatar) */
-.new-call img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* Overlay para el nombre */
-.video-name-overlay {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    backdrop-filter: blur(10px);
-    z-index: 10;
-}
-
-/* Botones de control mejorados */
-.call-buttons {
-    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.9) 100%);
-    backdrop-filter: blur(20px);
-    padding: 15px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.call-buttons button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.call-buttons .mute-call,
-.call-buttons .add-call {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    backdrop-filter: blur(10px);
-}
-
-.call-buttons .mute-call:hover,
-.call-buttons .add-call:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
-}
-
-.call-buttons .end-call {
-    background-color: #ff4757;
-    color: white;
-}
-
-.call-buttons .end-call:hover {
-    background-color: #ff3838;
-    transform: scale(1.1);
-}
-
-/* Estado activo de los botones */
-.call-buttons .mute-call.active,
-.call-buttons .add-call.active {
-    background-color: rgba(255, 71, 87, 0.8);
-}
-
-/* Animación de entrada */
-.new-call {
-    animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Indicador de llamada entrante */
-.incoming-call-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4a9eff;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(74, 158, 255, 0.5);
-    z-index: 10000;
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
-/* Responsive para diferentes tamaños de pantalla */
-@media (max-width: 768px) {
-    .modal-call {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-    }
-    
-    .call-buttons button {
-        width: 45px;
-        height: 45px;
-        font-size: 16px;
-    }
-}
-
-/* Indicador de estado de conexión */
-.connection-status {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    z-index: 20;
-}
-
-.connection-status.connected {
-    background-color: #4caf50;
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
-}
-
-.connection-status.connecting {
-    background-color: #ff9800;
-    box-shadow: 0 0 10px rgba(255, 152, 0, 0.8);
-    animation: pulse 1s infinite;
-}
-
-.connection-status.disconnected {
-    background-color: #f44336;
-    box-shadow: 0 0 10px rgba(244, 67, 54, 0.8);
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.7;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* En MAIN.css */
+/* Estilos para contenedores de video */
 .remote-player-wrapper {
     border: 1px solid #555;
-    background-color: #1e1e1e;
+    background-color: #000;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    overflow: hidden;
 }
 
-/* Estilo para los elementos de video dentro de los contenedores */
 #local-video-container video,
 .remote-player-wrapper video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* O 'contain' según prefieras */
+    object-fit: cover;
+}
+
+#local-video-container {
+    background-color: #000;
+}
+
+/* Scrollbars personalizados */
+.task-container::-webkit-scrollbar,
+.notificacion-container::-webkit-scrollbar,
+#recompensasDisponibles::-webkit-scrollbar {
+    width: 8px;
+}
+
+.task-container::-webkit-scrollbar-track,
+.notificacion-container::-webkit-scrollbar-track,
+#recompensasDisponibles::-webkit-scrollbar-track {
+    background: rgba(87, 71, 60, 0.1);
+    border-radius: 10px;
+}
+
+.task-container::-webkit-scrollbar-thumb,
+.notificacion-container::-webkit-scrollbar-thumb,
+#recompensasDisponibles::-webkit-scrollbar-thumb {
+    background-color: rgb(139, 98, 71);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 247, 237, 0.5);
+}
+
+.task-container::-webkit-scrollbar-thumb:hover,
+.notificacion-container::-webkit-scrollbar-thumb:hover,
+#recompensasDisponibles::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(87, 71, 60);
+}
+
+/* ESTILOS PARA MULTIMEDIA EN MENSAJES */
+.media-message-container {
+    margin-bottom: 8px;
+}
+
+.media-message-container img {
+    display: block;
+    max-width: 250px;
+    max-height: 200px;
+    border-radius: 8px;
+    cursor: pointer;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.media-message-container img:hover {
+    transform: scale(1.02);
+}
+
+.media-message-container video {
+    display: block;
+    max-width: 300px;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.media-message-container audio {
+    width: 100%;
+    max-width: 250px;
+    height: 30px;
+}
+
+.media-message-container a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #4a9eff;
+    text-decoration: none;
+    padding: 8px 12px;
+    background-color: rgba(74, 158, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(74, 158, 255, 0.3);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    max-width: 250px;
+    word-break: break-all;
+}
+
+.media-message-container a:hover {
+    background-color: rgba(74, 158, 255, 0.2);
+    text-decoration: none;
+}
+
+.media-message-container a i {
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+/* Contenedor de audio específico */
+.media-message-container div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background-color: rgba(74, 158, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(74, 158, 255, 0.3);
+    max-width: 250px;
+}
+
+.media-message-container div i {
+    color: #4a9eff;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+/* Ajustes para diferentes tipos de burbujas */
+.window-bubble .media-message-container,
+.window-bubble-dos .media-message-container {
+    width: 100%;
+}
+
+.window-bubble .media-message-container img,
+.window-bubble .media-message-container video,
+.window-bubble-dos .media-message-container img,
+.window-bubble-dos .media-message-container video {
+    margin: 0 auto;
+}
+
+.task-info .task-check{
+    width: 100%;
+    height: 40%; /* Aumentado para acomodar las opciones de recompensa */
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    overflow-y: auto;
+}
+.task-check h3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.task-check input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(228, 190, 165);
+    border-radius: 8px;
+    color: rgb(97, 77, 63);
+    background-color: white;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.task-check input[type="text"]:focus {
+    outline: none;
+    border-color: rgb(87, 71, 60);
+    box-shadow: 0 0 5px rgba(228, 190, 165, 0.5);
+}
+
+.task-check input[type="text"]::placeholder {
+    color: rgba(228, 190, 165, 0.8);
+    font-style: italic;
+}
+
+
+/* Responsive para multimedia */
+@media (max-width: 768px) {
+    .media-message-container img,
+    .media-message-container video {
+        max-width: 200px;
+        max-height: 150px;
+    }
+    
+    .media-message-container a {
+        max-width: 200px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
 }

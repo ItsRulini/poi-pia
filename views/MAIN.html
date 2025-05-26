@@ -70,6 +70,7 @@
             <div class="chat-display-top">
                 <div class="display-top-aux">
                     <p id="chatActivoNombre">Conversation name</p>
+                    <!-- Aquí se mostrará la descripción del otro usuario si es chat privado -->
                 </div>
                 <div class="display-icons-group">
                     <!-- <i id="callButton" class="fa-solid fa-phone call-trigger"></i> -->
@@ -92,14 +93,14 @@
             </div>
         </div>
         <!-- 3. -->
-        <!-- ventana de premios -->
+        <!-- ventana de premios y tareas -->
         <div class="additional-container">
             <div class="additional-container-n">
                 <h1>Rewards</h1>
                 <div class="separador-h1">
                     <hr class="h-h1">
                 </div>
-                <!-- burbuja de recompensas (lo puse de notificaciones pq si era para notificaciones, pero asi lo dejo ya xd)-->
+                <!-- burbuja de recompensas -->
                 <div class="notificacion-container">
                     <div class="notificacion-bubble">
                         <p id="CrearReward">Claim your reward</p>
@@ -116,11 +117,13 @@
                 <div class="task-container">
                     <div class="task-progress">
                         <!-- Nombre -->
-                        <p> [Task name] COMPLETED</p>
+                        <p>Selecciona un chat grupal para ver las tareas</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    
     <!-- Ventana PopUp para crear las tareas -->
     <div class="PopUp"> <!-- fondo -->
         <div class="modal-content"> <!-- Ventana base -->
@@ -130,16 +133,16 @@
                 <div class="separador-h4">
                     <hr class="h-h4">
                 </div>
-                <textarea name="description-task" id="task" placeholder="Task description..."></textarea>
+                <textarea name="description-task" id="task" placeholder="Task description..." required></textarea>
                 <div class="task-check">
-                    <h3>Select the reward</h3>
-                    <p><input type="checkbox" name="section" value="sports">#1 Reward</p>
-                    <p><input type="checkbox" name="section" value="business">#2 Reward</p>
+                    <h3>Write a custom reward</h3>
+                    <input type="text" id="recompensaPersonalizada" placeholder="Example: 🏆 Task Master - Challenge Conqueror" style="width: 100%; padding: 10px; border: none; border-radius: 5px; color: rgb(228, 190, 165); margin-top: 10px;">
                 </div>
-                <button type="submit" class="task-btn">Create task</button>
+                <button type="button" class="task-btn">Create task</button>
             </div>
         </div>
     </div>
+    
     <!-- Ventana PopUp para reclamar recompensas -->
     <div class="PopUpReward"> <!-- fondo -->
         <div class="modal-reward"> <!-- Ventana base -->
@@ -148,13 +151,15 @@
                 <div class="separador-reward">
                     <hr class="h-reward">
                 </div>
-                <h3>Select your reward</h3>
-                <p><input type="checkbox" name="section" value="sports">#1 Reward</p>
-                <p><input type="checkbox" name="section" value="business">#2 Reward</p>
-                <button type="submit" class="task-reward-btn">Claim</button>
+                <h3>Available Rewards</h3>
+                <div id="recompensasDisponibles" style="max-height: 150px; overflow-y: auto; margin-bottom: 15px;">
+                    <p style="text-align: center; color: rgba(228, 190, 165, 0.7);">Loading rewards...</p>
+                </div>
+                <button type="button" class="task-reward-btn" id="claimRewardBtn" disabled>Select a reward first</button>
             </div>
         </div>
     </div>
+    
     <div id="videoCallContainer" style="display: none; flex-direction: column; align-items: center; padding: 10px; background-color: #f0f0f0; border-radius: 8px; margin: 10px 0; border: 1px solid #ccc;">
         <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 10px;">
             <div style="text-align: center; position: relative;">
@@ -170,6 +175,7 @@
             <button id="hangupButton" class="Button" title="Colgar llamada" disabled style="font-size: 1.2em; padding: 8px 10px; background-color: #e74c3c; color: white;"><i class="fa-solid fa-phone-slash"></i></button>
         </div>
     </div>
+    
     <!-- Ventana PopUp para crear chat -->
     <div class="PopUpChat"> 
         <div class="modal-chat"> 
@@ -190,6 +196,7 @@
             <button class="start-btn" id="startChatButton">Start chatting</button>
         </div>
     </div>
+    
     <!-- Ventana PopUp para eliminar chat -->
     <div class="PopUpDelete"> <!-- fondo -->
         <div class="modal-delete"> <!-- Ventana base -->
@@ -208,6 +215,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Ventana PopUp para llamada/videollamada -->
     <div class="PopUpCall"> <!-- fondo -->
         <div class="modal-call"> <!-- Ventana base -->
@@ -236,7 +244,6 @@
     <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="MAIN.js"></script>
-    <!-- <script src="webrtc-handler.js"></script> -->
     
 </body>
 </html>
